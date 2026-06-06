@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
@@ -21,6 +21,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { TavernBackdrop } from "../../components/TavernBackdrop";
+import { OnboardingModal } from "../../components/OnboardingModal";
 import { useGameStore } from "../../store/gameStore";
 import { colors, fonts } from "../../theme/tokens";
 import { playUITap } from "../../utils/audioManager";
@@ -42,6 +43,9 @@ export default function SettingsScreen() {
   const loadGame = useGameStore((s) => s.loadGame);
   const deleteGame = useGameStore((s) => s.deleteGame);
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   const [slots, setSlots] = useState<Record<number, SlotInfo>>({
     1: { exists: false },
@@ -225,6 +229,18 @@ export default function SettingsScreen() {
 
           <View style={styles.divider} />
 
+          <Pressable style={styles.row} onPress={() => { playUITap(); setShowOnboarding(true); }}>
+            <View style={[styles.iconContainer, { backgroundColor: "rgba(200, 170, 110, 0.15)" }]}>
+              <MaterialCommunityIcons name="book-open-page-variant" size={24} color={colors.accentGold} />
+            </View>
+            <View style={styles.rowInfo}>
+              <Text style={styles.rowText}>Başlangıç Rehberi</Text>
+              <Text style={styles.rowSubtext}>Oyunun kurallarını tekrar oku</Text>
+            </View>
+          </Pressable>
+
+          <View style={styles.divider} />
+
           <Pressable style={styles.row} onPress={handleReset}>
             <View style={[styles.iconContainer, { backgroundColor: "rgba(200, 55, 77, 0.2)" }]}>
               <MaterialCommunityIcons name="delete-forever" size={24} color={colors.ember} />
@@ -236,7 +252,7 @@ export default function SettingsScreen() {
           </Pressable>
 
           {/* Kayıt Sistemi */}
-          <Text style={[styles.sectionTitle, { marginTop: 24 }]}>KAYIT YÖNETİMİ</Text>
+          <Text style={[styles.sectionTitle, { marginTop: 16 }]}>KAYIT YÖNETİMİ</Text>
 
           {[1, 2, 3].map((slot) => {
             const info = slots[slot];
@@ -289,7 +305,7 @@ export default function SettingsScreen() {
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>KADİM MEŞE HANI</Text>
-            <Text style={styles.footerSubtext}>v1.0.1 · Teşkilatsız</Text>
+            <Text style={styles.footerSubtext}>v1.0.2 · Teşkilatsız</Text>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -383,6 +399,26 @@ export default function SettingsScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* Onboarding Overlay */}
+      {showOnboarding && (
+        <View style={[
+          StyleSheet.absoluteFill, 
+          { 
+            backgroundColor: "rgba(14, 17, 20, 0.9)", // Ayarlar ekranında arka planı biraz daha karartarak modali öne çıkarıyoruz
+            zIndex: 100,
+            top: insets.top + 16,
+            bottom: insets.bottom + 16,
+            alignItems: "center",
+            justifyContent: "center"
+          }
+        ]}>
+          <OnboardingModal
+            visible={showOnboarding}
+            onDone={() => setShowOnboarding(false)}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -393,7 +429,7 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 16,
     paddingTop: 12,
-    paddingBottom: 16,
+    paddingBottom: 8,
   },
   title: {
     color: colors.accentGold,
@@ -418,7 +454,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: "rgba(200, 170, 110, 0.5)",
     letterSpacing: 2,
-    marginBottom: 12,
+    marginBottom: 8,
     marginLeft: 4,
   },
   row: {
@@ -426,17 +462,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(14, 17, 20, 0.6)",
     borderRadius: 12,
-    padding: 12,
+    padding: 10,
     borderWidth: 1,
     borderColor: "rgba(200, 170, 110, 0.1)",
   },
   iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 16,
+    marginRight: 12,
   },
   rowInfo: { flex: 1 },
   rowText: {
@@ -453,14 +489,14 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   divider: {
-    height: 12,
+    height: 8,
   },
   slotCard: {
-    borderRadius: 16,
+    borderRadius: 14,
     borderWidth: 1,
     borderColor: "rgba(200, 170, 110, 0.2)",
-    padding: 16,
-    marginBottom: 12,
+    padding: 12,
+    marginBottom: 8,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -514,7 +550,7 @@ const styles = StyleSheet.create({
     color: "#f0e6d2",
   },
   footer: {
-    marginTop: 32,
+    marginTop: 20,
     alignItems: "center",
     opacity: 0.5,
   },

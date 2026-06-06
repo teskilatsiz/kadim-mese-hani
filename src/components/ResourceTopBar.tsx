@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image, useWindowDimensions } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -38,39 +38,7 @@ const metricConfig: {
   { key: "atmosphere", label: "RUH", color: colors.wine, icon: "drama-masks" },
 ];
 
-function TavernLogo({ size, color }: { size: number; color: string }) {
-  return (
-    <Svg width={size} height={size} viewBox="0 0 32 32" fill="none">
-      <Path
-        d="M16 28V18"
-        stroke={color}
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <Path
-        d="M16 7c-5 0-9 3-9 6s2 5 4 6c-1 1.5 0 3 1 3h8c1 0 2-1.5 1-3 2-1 4-3 4-6s-4-6-9-6Z"
-        stroke={color}
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-      <Path
-        d="M13 28c-1 1-3 1.5-4 1.5"
-        stroke={color}
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity={0.4}
-      />
-      <Path
-        d="M19 28c1 1 3 1.5 4 1.5"
-        stroke={color}
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity={0.4}
-      />
-      <Circle cx="16" cy="12" r="1.5" fill={color} opacity={0.3} />
-    </Svg>
-  );
-}
+
 
 function toRoman(n: number): string {
   const pairs: [number, string][] = [
@@ -97,14 +65,20 @@ export function ResourceTopBar({
   turn,
   onOpenSettings,
 }: ResourceTopBarProps) {
+  const { width } = useWindowDimensions();
+  const logoSize = Math.min(width * 0.22, 85);
+
   return (
     <View style={styles.outerContainer}>
       {/* Removed Settings Button */}
 
       {/* Tavern Sign (Centered at Top) */}
       <View style={styles.tavernSignContainer}>
-        <TavernLogo size={36} color={colors.accentGold} />
-        <View style={styles.titleArea}>
+        <Image 
+          source={require('../assets/logo.png')} 
+          style={{ width: logoSize, height: logoSize, resizeMode: "contain" }}
+        />
+        <View style={[styles.titleArea, { marginTop: -logoSize * 0.12 }]}>
           <Text style={styles.innName}>Kadim Meşe</Text>
           <Text style={styles.innSubtitle}>HANI</Text>
         </View>

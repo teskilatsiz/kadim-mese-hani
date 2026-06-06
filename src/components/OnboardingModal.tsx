@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Animated, {
@@ -21,44 +22,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { colors, fonts } from "../theme/tokens";
 
-function TavernLogo({ size, color }: { size: number; color: string }) {
-  return (
-    <Svg width={size} height={size} viewBox="0 0 32 32" fill="none">
-      <Path
-        d="M16 28V18"
-        stroke={color}
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <Path
-        d="M16 7c-5 0-9 3-9 6s2 5 4 6c-1 1.5 0 3 1 3h8c1 0 2-1.5 1-3 2-1 4-3 4-6s-4-6-9-6Z"
-        stroke={color}
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-      <Path
-        d="M13 28c-1 1-3 1.5-4 1.5"
-        stroke={color}
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity={0.4}
-      />
-      <Path
-        d="M19 28c1 1 3 1.5 4 1.5"
-        stroke={color}
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity={0.4}
-      />
-      <Circle cx="16" cy="12" r="1.5" fill={color} opacity={0.3} />
-    </Svg>
-  );
-}
-
 const STEPS = [
   {
     icon: "tree" as const,
-    isSvg: true,
+    isLogo: true,
     title: "Kadim Meşe Hanı'na\nHoş Geldin",
     body: "Sen bir hancısın. Kapına gelen yolculara karar verecek, hanını ayakta tutacaksın. Her gece yeni bir misafir, her misafir yeni bir kader.",
   },
@@ -193,17 +160,22 @@ export function OnboardingModal({ visible, onDone }: OnboardingModalProps) {
               style={styles.stepContent}
             >
               {/* Icon */}
-              <View style={styles.iconCircle}>
-                {current.isSvg ? (
-                  <TavernLogo size={40} color={colors.accentGold} />
-                ) : (
+              {current.isLogo ? (
+                <View style={{ marginBottom: 20 }}>
+                  <Image 
+                    source={require('../assets/logo.png')} 
+                    style={{ width: 110, height: 110, resizeMode: "contain" }} 
+                  />
+                </View>
+              ) : (
+                <View style={styles.iconCircle}>
                   <MaterialCommunityIcons
                     name={current.icon as any}
                     size={40}
                     color={colors.accentGold}
                   />
-                )}
-              </View>
+                </View>
+              )}
 
               {/* Title */}
               <Text style={styles.title}>{current.title}</Text>

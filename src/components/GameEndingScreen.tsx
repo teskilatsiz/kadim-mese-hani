@@ -38,7 +38,7 @@ export function GameEndingScreen({
   onContinue,
   onHardReset,
 }: GameEndingScreenProps) {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const isVictory = ending.type === "victory";
   const stateColors = tavernStateColors[ending.tavernState];
 
@@ -89,7 +89,7 @@ export function GameEndingScreen({
     <View
       style={[styles.container, { backgroundColor: "transparent" }]}
     >
-      <View style={[styles.card, { width: Math.min(width - 32, 400) }]}>
+      <View style={[styles.card, { width: Math.min(width - 32, 400), minHeight: Math.min(600, height * 0.8) }]}>
         <View style={[styles.cardBorder, { overflow: "hidden" }]}>
           <LinearGradient
             colors={
@@ -133,26 +133,27 @@ export function GameEndingScreen({
             />
           </Animated.View>
           <View style={[styles.cardInner, { backgroundColor: bgColor }]}>
-            {}
-            <Animated.View style={headlineStyle}>
-              <Text style={[styles.eyebrow, { color: borderColor }]}>
-                {isVictory ? "HAN EFSANESİ" : "HAN KAPANDI"}
-              </Text>
-              <Text style={styles.headline}>{ending.headline}</Text>
-            </Animated.View>
+            <View style={styles.contentWrap}>
+              <View style={styles.topSection}>
+                <Animated.View style={headlineStyle}>
+                  <Text style={[styles.eyebrow, { color: borderColor }]}>
+                    {isVictory ? "HAN EFSANESİ" : "HAN KAPANDI"}
+                  </Text>
+                  <Text style={styles.headline}>{ending.headline}</Text>
+                </Animated.View>
 
-            <View style={[styles.divider, { backgroundColor: borderColor }]} />
+                <View style={[styles.divider, { backgroundColor: borderColor }]} />
 
-            {}
-            <Animated.View entering={FadeInUp.delay(600).duration(500)}>
-              <Text
-                style={styles.epilogue}
-                numberOfLines={5}
-                adjustsFontSizeToFit
-              >
-                {ending.epilogue}
-              </Text>
-            </Animated.View>
+                <Animated.View entering={FadeInUp.delay(600).duration(500)}>
+                  <Text
+                    style={styles.epilogue}
+                    numberOfLines={5}
+                    adjustsFontSizeToFit
+                  >
+                    {ending.epilogue}
+                  </Text>
+                </Animated.View>
+              </View>
 
             {}
             <Animated.View
@@ -294,6 +295,7 @@ export function GameEndingScreen({
                 </Text>
               </Pressable>
             </Animated.View>
+            </View>
           </View>
         </View>
       </View>
@@ -353,16 +355,24 @@ const styles = StyleSheet.create({
     maxHeight: "95%",
   },
   cardBorder: {
+    flex: 1,
     borderRadius: themeMetrics.cardRadius,
     padding: 2,
   },
   cardInner: {
+    flex: 1,
     borderRadius: themeMetrics.cardRadius - 1.5,
     borderWidth: 1,
     borderColor: "rgba(200, 170, 110, 0.1)",
     padding: 20,
+  },
+  contentWrap: {
+    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
+  },
+  topSection: {
+    alignItems: "center",
   },
 
   eyebrow: {

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SystemUI from "expo-system-ui";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAudioPlayer } from "expo-audio";
 import Animated, {
   useAnimatedStyle,
@@ -47,6 +47,7 @@ const SHUFFLE_CARD_COUNT = 5;
 
 export default function GameScreen() {
   const { width, height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const metricsState = useGameStore((s) => s.metrics);
   const generation = useGameStore((s) => s.generation);
   const turn = useGameStore((s) => s.turn);
@@ -159,42 +160,52 @@ export default function GameScreen() {
   return (
     <View style={styles.screen}>
       <TavernBackdrop />
-      <SafeAreaView edges={["top"]} style={styles.safeArea}>
-        <ResourceTopBar
-          metrics={metricsState}
-          generation={generation}
-          turn={turn}
-        />
+      
+      {!ending ? (
+        <SafeAreaView edges={["top"]} style={styles.safeArea}>
+          <ResourceTopBar
+            metrics={metricsState}
+            generation={generation}
+            turn={turn}
+          />
 
-        <View style={styles.stage}>
-          {shuffling ? (
-            <ShuffleAnimation />
-          ) : (
-            <>
-              {nextCard ? (
-                <QueuedCardShadow
-                  cardName={nextCard.characterName}
-                  portraitKey={nextCard.portraitKey}
-                />
-              ) : null}
-              {currentCard ? (
-                <SwipeCard
-                  key={`${currentCard.id}-${generation}-${turn}`}
-                  card={currentCard}
-                  disabled={Boolean(failure) || Boolean(ending)}
-                  onSwipe={handleSwipe}
-                />
-              ) : (
-                <EmptyDeck onReset={resetGame} />
-              )}
-            </>
-          )}
-        </View>
+          <View style={styles.stage}>
+            {shuffling ? (
+              <ShuffleAnimation />
+            ) : (
+              <>
+                {nextCard ? (
+                  <QueuedCardShadow
+                    cardName={nextCard.characterName}
+                    portraitKey={nextCard.portraitKey}
+                  />
+                ) : null}
+                {currentCard ? (
+                  <SwipeCard
+                    key={`${currentCard.id}-${generation}-${turn}`}
+                    card={currentCard}
+                    disabled={Boolean(failure) || Boolean(ending)}
+                    onSwipe={handleSwipe}
+                  />
+                ) : (
+                  <EmptyDeck onReset={resetGame} />
+                )}
+              </>
+            )}
+          </View>
 
-        {/* Absolute overlay for Onboarding inside SafeAreaView, so it aligns perfectly with the real TopBar and stage */}
-        {showOnboarding && (
-          <View style={[StyleSheet.absoluteFill, { backgroundColor: "transparent", zIndex: 100 }]}>
-            <View style={styles.stage}>
+          {showOnboarding && (
+            <View style={[
+              StyleSheet.absoluteFill, 
+              { 
+                backgroundColor: "transparent", 
+                zIndex: 100,
+                top: insets.top + 16, // Status bar'a değmemesi için insets.top ve ekstra boşluk
+                bottom: insets.bottom + 16,
+                alignItems: "center",
+                justifyContent: "center"
+              }
+            ]}>
               <OnboardingModal
                 visible={showOnboarding}
                 onDone={() => {
@@ -204,9 +215,9 @@ export default function GameScreen() {
                 }}
               />
             </View>
-          </View>
-        )}
-      </SafeAreaView>
+          )}
+        </SafeAreaView>
+      ) : null}
 
       {ending ? (
         <GameEndingScreen
