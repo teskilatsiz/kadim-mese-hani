@@ -1,4 +1,5 @@
 <div align="center">
+  <img src="src/assets/logo.png" alt="Kadim Meşe Hanı Logo" width="150" />
   <h1>Kadim Meşe Hanı</h1>
   <p>
     <b>Kart kaydırma mekaniğiyle çalışan, dinamik kaynak yönetimi ve hikaye tabanlı fantastik ortaçağ strateji oyunu.</b>
