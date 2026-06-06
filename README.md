@@ -28,9 +28,17 @@ Fantastik bir dünyada bir hancı olarak hayatta kalmaya çalışın! Hanınıza
 *   **Çoklu Sonlar:** Hanınız iflas mı edecek, yoksa bir efsaneye mi dönüşecek? Kararlarınıza göre şekillenen onlarca benzersiz son.
 *   **Koleksiyon Sistemi:** Karşılaştığınız karakterlerin ve kilidini açtığınız sonların tamamını koleksiyon menünüzde görüntüleyin.
 
-## Başlarken
+## Oyunu İndir (Android APK)
 
-Projeyi kendi bilgisayarınızda derlemek ve çalıştırmak için aşağıdaki adımları izleyebilirsiniz.
+Oyunun derlenmiş son Android sürümünü cihazınıza kurup hemen oynamaya başlamak için sürümler sayfasını ziyaret edebilirsiniz:
+
+👉 **[En Güncel APK'yı İndir](https://github.com/teskilatsiz/kadim-mese-hani/releases/latest)**
+
+*(İndirdiğiniz APK dosyasına tıklayarak kurulumu yapabilirsiniz. Cihazınız uyarı verirse ayarlardan "Bilinmeyen Kaynaklardan Yükleme" izni vererek kuruluma devam edebilirsiniz.)*
+
+## Başlarken (Geliştiriciler İçin)
+
+Kaynak kodunu kendi bilgisayarınızda derlemek ve geliştirmek için aşağıdaki adımları izleyebilirsiniz.
 
 ### Ön Koşullar
 
