@@ -11,79 +11,79 @@ export const titleDefs: TitleDef[] = [
   {
     id: "han_beyi",
     label: "Han Beyi",
-    icon: "🏆",
+    icon: "trophy",
     condition: (_f, _m) => true,
   },
   {
     id: "tuccar_dostu",
     label: "Tüccarların Dostu",
-    icon: "🤝",
+    icon: "handshake",
     condition: (flags) =>
       flags.includes("baharat_anlasmasi") && flags.includes("lonca_anlasmasi"),
   },
   {
     id: "kuzeyin_siginagi",
     label: "Kuzeyin Son Sığınağı",
-    icon: "🛡️",
+    icon: "shield-half-full",
     condition: (flags) =>
       flags.includes("kervan_kurtuldu") && flags.includes("prenses_saklandi"),
   },
   {
     id: "simya_ustasi",
     label: "Simya Ustası",
-    icon: "⚗️",
+    icon: "flask",
     condition: (flags) =>
       flags.includes("simyaci_kabul_edildi") && flags.includes("iksir_gecesi"),
   },
   {
     id: "ormanin_koruyucusu",
     label: "Ormanın Koruyucusu",
-    icon: "🌳",
+    icon: "tree",
     condition: (flags) =>
       flags.includes("mese_ritueli") && flags.includes("orman_barisi"),
   },
   {
     id: "halk_kahramani",
     label: "Halk Kahramanı",
-    icon: "❤️",
+    icon: "heart",
     condition: (_flags, metrics) => metrics.atmosphere >= 70,
   },
   {
     id: "altin_kasa",
     label: "Altın Kasa",
-    icon: "💰",
+    icon: "cash",
     condition: (_flags, metrics) => metrics.wealth >= 70,
   },
   {
     id: "demir_yumruk",
     label: "Demir Yumruk",
-    icon: "⚔️",
+    icon: "sword-cross",
     condition: (_flags, metrics) => metrics.security >= 70,
   },
   {
     id: "efsane_asci",
     label: "Efsane Aşçı",
-    icon: "👨‍🍳",
+    icon: "chef-hat",
     condition: (flags) => flags.includes("asci_ustaligi"),
   },
   {
     id: "sarkilarin_efendisi",
     label: "Şarkıların Efendisi",
-    icon: "🎵",
+    icon: "music-note",
     condition: (flags) =>
       flags.includes("ozan_sahne_aldi") && flags.includes("ozan_efsanesi"),
   },
   {
     id: "golgelerin_dostu",
     label: "Gölgelerin Dostu",
-    icon: "🌙",
+    icon: "moon-waning-crescent",
     condition: (flags) =>
       flags.includes("bodrum_acildi") && flags.includes("mese_ritueli"),
   },
   {
     id: "krallik_hamisi",
     label: "Krallığın Hamisi",
-    icon: "👑",
+    icon: "crown",
     condition: (flags) =>
       flags.includes("prenses_saklandi") &&
       flags.includes("sovalye_yeminli") &&
@@ -92,7 +92,7 @@ export const titleDefs: TitleDef[] = [
   {
     id: "denizlerin_hancisi",
     label: "Denizlerin Hancısı",
-    icon: "⚓",
+    icon: "anchor",
     condition: (flags) =>
       flags.includes("baharat_anlasmasi") && flags.includes("kervan_ticaret"),
   },
@@ -277,10 +277,10 @@ const secretEventFlags = [
   "lonca_dusmani_geldi",
 ];
 
-export function calculateTitles(flags: string[], metrics: Metrics): string[] {
+export function calculateTitles(flags: string[], metrics: Metrics): { icon: string; label: string }[] {
   return titleDefs
     .filter((t) => t.condition(flags, metrics))
-    .map((t) => `${t.icon} ${t.label}`);
+    .map((t) => ({ icon: t.icon, label: t.label }));
 }
 
 export function calculateEnding(

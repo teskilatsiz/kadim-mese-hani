@@ -23,10 +23,12 @@ Fantastik bir dünyada bir hancı olarak hayatta kalmaya çalışın! Hanınıza
 
 ## Özellikler
 
-*   **Hızlı ve Akıcı Karar Mekanizması:** Sorunları sağa veya sola kaydırarak anında çözün.
-*   **Stratejik Kaynak Yönetimi:** Kararlarınızın dört temel kaynak üzerindeki sonuçlarını önceden tahmin edin ve dengede kalın.
-*   **Çoklu Sonlar:** Hanınız iflas mı edecek, yoksa bir efsaneye mi dönüşecek? Kararlarınıza göre şekillenen onlarca benzersiz son.
-*   **Koleksiyon Sistemi:** Karşılaştığınız karakterlerin ve kilidini açtığınız sonların tamamını koleksiyon menünüzde görüntüleyin.
+*   **Hızlı ve Akıcı Karar Mekanizması:** Olayları sağa veya sola kaydırarak anında çözün.
+*   **Stratejik Kaynak Yönetimi:** Kararlarınızın dört temel kaynak (Kiler, Kasa, Düzen, Ruh) üzerindeki sonuçlarını önceden tahmin edin ve dengeyi koruyun.
+*   **Çoklu Senaryo ve Sonlar:** Hanınız iflas mı edecek, yoksa efsaneye mi dönüşecek? Kararlarınıza göre şekillenen benzersiz karakter hikayeleri ve onlarca farklı final.
+*   **Gelişmiş Koleksiyon ve Başarım Sistemi:** Karşılaştığınız karakterleri, kilidini açtığınız sonları ve kazandığınız nadir başarımları koleksiyon menünüzde detaylıca inceleyin.
+*   **Detaylı Ses Kontrolü:** Oyun içi atmosferi dilediğiniz gibi şekillendirin; arka plan müziği ve ses efektlerini (kart kaydırma, bildirim vb.) ayarlardan birbirinden bağımsız olarak yönetin.
+*   **Kapsamlı Başlangıç Rehberi:** Oyuna yeni başlayan hancıların tüm mekanikleri hızlıca kavramasını sağlayan, cihaz ekranıyla tam uyumlu ve etkileşimli eğitim adımları.
 
 ## Oyunu İndir (Android APK)
 

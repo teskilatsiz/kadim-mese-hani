@@ -146,6 +146,7 @@ function TrophyIcon({ color, size }: { color: string; size: number }) {
 export default function TabsLayout() {
   const unreadCollections = useGameStore((s) => s.unreadCollections);
   const unreadAchievements = useGameStore((s) => s.unreadAchievements);
+  const totalUnread = unreadCollections + unreadAchievements;
   const insets = useSafeAreaInsets();
 
   return (
@@ -181,17 +182,16 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <BookIcon color={color} size={size} />
           ),
-          tabBarBadge: unreadCollections > 0 ? unreadCollections : undefined,
+          tabBarBadge: totalUnread > 0 ? totalUnread : undefined,
         }}
       />
       <Tabs.Screen
-        name="achievements"
+        name="settings"
         options={{
-          title: "Başarımlar",
+          title: "Ayarlar",
           tabBarIcon: ({ color, size }) => (
-            <TrophyIcon color={color} size={size} />
+            <MaterialCommunityIcons name="cog" color={color} size={size} />
           ),
-          tabBarBadge: unreadAchievements > 0 ? unreadAchievements : undefined,
         }}
       />
     </Tabs>

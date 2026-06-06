@@ -99,15 +99,7 @@ export function ResourceTopBar({
 }: ResourceTopBarProps) {
   return (
     <View style={styles.outerContainer}>
-      {/* Settings Button */}
-      <View style={styles.settingsButtonContainer}>
-        <MaterialCommunityIcons
-          name="cog"
-          size={24}
-          color="rgba(200, 170, 110, 0.6)"
-          onPress={onOpenSettings}
-        />
-      </View>
+      {/* Removed Settings Button */}
 
       {/* Tavern Sign (Centered at Top) */}
       <View style={styles.tavernSignContainer}>

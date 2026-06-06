@@ -6,6 +6,7 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SystemUI from "expo-system-ui";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAudioPlayer } from "expo-audio";
@@ -22,8 +23,9 @@ import { GameEndingScreen } from "../../components/GameEndingScreen";
 import { LiquidGlassPanel } from "../../components/LiquidGlassPanel";
 import { NativeActionButton } from "../../components/NativeActionButton";
 import { ResourceTopBar } from "../../components/ResourceTopBar";
-import { SettingsSheet } from "../../components/SettingsSheet";
+
 import { SwipeCard } from "../../components/SwipeCard";
+import { OnboardingModal } from "../../components/OnboardingModal";
 import { TavernBackdrop } from "../../components/TavernBackdrop";
 import { CharacterPortrait } from "../../assets/art/CharacterPortrait";
 import { colors, fonts, metrics } from "../../theme/tokens";
@@ -57,25 +59,40 @@ export default function GameScreen() {
   const resetGame = useGameStore((s) => s.resetGame);
   const hardReset = useGameStore((s) => s.hardReset);
   const soundEnabled = useGameStore((s) => s.soundEnabled);
+  const musicEnabled = useGameStore((s) => s.musicEnabled);
+  const lastLoadedAt = useGameStore((s) => s.lastLoadedAt);
 
   const availableH = height - 320;
   const cardHeight = Math.min(Math.max(availableH, 360), 520);
 
   const [shuffling, setShuffling] = useState(false);
-  const [settingsVisible, setSettingsVisible] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const onboardingChecked = useRef(false);
+
   const hasPlayedInitial = useRef(false);
+
+  useEffect(() => {
+    if (!onboardingChecked.current) {
+      onboardingChecked.current = true;
+      AsyncStorage.getItem("onboarding_done").then((val) => {
+        if (val !== "true") {
+          setShowOnboarding(true);
+        }
+      }).catch(() => {});
+    }
+  }, []);
 
   const bgPlayer = useAudioPlayer(require("../../assets/audio/background.mp3"));
 
   useEffect(() => {
     SystemUI.setBackgroundColorAsync("#0e1114").catch(() => undefined);
     bgPlayer.loop = true;
-    if (soundEnabled) {
+    if (musicEnabled) {
       bgPlayer.play();
     } else {
       bgPlayer.pause();
     }
-  }, [bgPlayer, soundEnabled]);
+  }, [bgPlayer, musicEnabled]);
 
   useEffect(() => {
     if (!hasPlayedInitial.current) {
@@ -97,6 +114,15 @@ export default function GameScreen() {
   }, [generation]);
 
   useEffect(() => {
+    if (lastLoadedAt > 0) {
+      setShuffling(true);
+      playCardAppear().catch(() => undefined);
+      const timer = setTimeout(() => setShuffling(false), 900);
+      return () => clearTimeout(timer);
+    }
+  }, [lastLoadedAt]);
+
+  useEffect(() => {
     if (failure) {
       playFailure().catch(() => undefined);
     }
@@ -105,7 +131,7 @@ export default function GameScreen() {
   const handleHardReset = useCallback(() => {
     hardReset();
     bgPlayer.seekTo(0);
-    if (soundEnabled) {
+    if (musicEnabled) {
       bgPlayer.play();
     }
 
@@ -138,7 +164,6 @@ export default function GameScreen() {
           metrics={metricsState}
           generation={generation}
           turn={turn}
-          onOpenSettings={() => setSettingsVisible(true)}
         />
 
         <View style={styles.stage}>
@@ -165,9 +190,24 @@ export default function GameScreen() {
             </>
           )}
         </View>
+
+        {/* Absolute overlay for Onboarding inside SafeAreaView, so it aligns perfectly with the real TopBar and stage */}
+        {showOnboarding && (
+          <View style={[StyleSheet.absoluteFill, { backgroundColor: "transparent", zIndex: 100 }]}>
+            <View style={styles.stage}>
+              <OnboardingModal
+                visible={showOnboarding}
+                onDone={() => {
+                  setShowOnboarding(false);
+                  setShuffling(true);
+                  setTimeout(() => setShuffling(false), 900);
+                }}
+              />
+            </View>
+          </View>
+        )}
       </SafeAreaView>
 
-      {}
       {ending ? (
         <GameEndingScreen
           ending={ending}
@@ -175,12 +215,6 @@ export default function GameScreen() {
           onHardReset={handleHardReset}
         />
       ) : null}
-
-      <SettingsSheet
-        visible={settingsVisible}
-        onClose={() => setSettingsVisible(false)}
-        onHardReset={handleHardReset}
-      />
     </View>
   );
 }

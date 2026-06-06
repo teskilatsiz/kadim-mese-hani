@@ -3,7 +3,7 @@
     "name": "Kadim Meşe Hanı",
     "slug": "kadim-mese-hani",
     "scheme": "kadimhani",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "icon": "./src/assets/icon.png",
@@ -19,6 +19,7 @@
     },
     "android": {
       "package": "com.kadim.mesehani",
+      "versionCode": 2,
       "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
@@ -36,7 +37,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#110d0a",
+          "backgroundColor": "#1a1510",
           "image": "./src/assets/icon.png",
           "imageWidth": 220
         }

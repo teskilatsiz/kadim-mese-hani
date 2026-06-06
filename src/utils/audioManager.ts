@@ -49,14 +49,14 @@ export async function playSwipeSound(direction: "left" | "right") {
   }
 
   try {
-    const { soundEnabled } = useGameStore.getState();
-    if (soundEnabled) {
+    const { sfxEnabled } = useGameStore.getState();
+    if (sfxEnabled) {
       if (!players.swipe) {
         players.swipe = createAudioPlayer(
           require("../assets/audio/swipe-card.mp3"),
         );
       }
-      players.swipe.seekTo(0);
+      await players.swipe.seekTo(0);
       players.swipe.play();
     }
   } catch {}
@@ -117,10 +117,12 @@ export async function playUnlock(type: "achievement" | "collection") {
     }, 100);
   }
   try {
+    const { sfxEnabled } = useGameStore.getState();
+    if (!sfxEnabled) return;
     if (!players.reward) {
       players.reward = createAudioPlayer(require("../assets/audio/reward.mp3"));
     }
-    players.reward.seekTo(0);
+    await players.reward.seekTo(0);
     players.reward.play();
   } catch {}
 }

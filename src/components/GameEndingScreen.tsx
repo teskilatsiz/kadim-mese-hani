@@ -14,6 +14,8 @@ import Animated, {
   withSequence,
   withSpring,
   withTiming,
+  withRepeat,
+  Easing,
   FadeIn,
   FadeInDown,
   FadeInUp,
@@ -54,6 +56,20 @@ export function GameEndingScreen({
     );
   }, [headlineOpacity, headlineScale]);
 
+  const rotateGlow = useSharedValue(0);
+
+  useEffect(() => {
+    rotateGlow.value = withRepeat(
+      withTiming(360, { duration: 6000, easing: Easing.linear }),
+      -1,
+      false
+    );
+  }, [rotateGlow]);
+
+  const rotateGlowStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${rotateGlow.value}deg` }],
+  }));
+
   const headlineStyle = useAnimatedStyle(() => ({
     opacity: headlineOpacity.value,
     transform: [{ scale: headlineScale.value }],
@@ -71,26 +87,51 @@ export function GameEndingScreen({
 
   return (
     <View
-      style={[styles.container, { backgroundColor: "rgba(4, 2, 1, 0.92)" }]}
+      style={[styles.container, { backgroundColor: "transparent" }]}
     >
       <View style={[styles.card, { width: Math.min(width - 32, 400) }]}>
-        <LinearGradient
-          colors={
-            isVictory
-              ? [
-                  stateColors.primary,
-                  stateColors.secondary,
-                  bgColor,
-                  stateColors.secondary,
-                  stateColors.primary,
-                ]
-              : ["#c8374d", "#8a2030", bgColor, "#8a2030", "#c8374d"]
-          }
-          locations={[0, 0.15, 0.5, 0.85, 1]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.cardBorder}
-        >
+        <View style={[styles.cardBorder, { overflow: "hidden" }]}>
+          <LinearGradient
+            colors={
+              isVictory
+                ? [
+                    stateColors.primary,
+                    stateColors.secondary,
+                    bgColor,
+                    stateColors.secondary,
+                    stateColors.primary,
+                  ]
+                : ["#c8374d", "#8a2030", bgColor, "#8a2030", "#c8374d"]
+            }
+            locations={[0, 0.15, 0.5, 0.85, 1]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+          <Animated.View
+            style={[
+              {
+                position: "absolute",
+                top: "-50%",
+                left: "-50%",
+                width: "200%",
+                height: "200%",
+              },
+              rotateGlowStyle,
+            ]}
+          >
+            <LinearGradient
+              colors={
+                isVictory
+                  ? ["transparent", "transparent", "#fff5d1", stateColors.primary, "transparent", "transparent"]
+                  : ["transparent", "transparent", "#ff8a9a", "#c8374d", "transparent", "transparent"]
+              }
+              locations={[0, 0.4, 0.48, 0.52, 0.6, 1]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{ flex: 1 }}
+            />
+          </Animated.View>
           <View style={[styles.cardInner, { backgroundColor: bgColor }]}>
             {}
             <Animated.View style={headlineStyle}>
@@ -162,19 +203,20 @@ export function GameEndingScreen({
                 <View style={styles.badgesWrap}>
                   {ending.titles.map((title) => (
                     <View
-                      key={title}
+                      key={title.label}
                       style={[
                         styles.badge,
-                        { borderColor: `${stateColors.primary}40` },
+                        { borderColor: `${stateColors.primary}40`, flexDirection: "row", alignItems: "center", gap: 4 },
                       ]}
                     >
+                      <MaterialCommunityIcons name={title.icon as any} size={14} color={stateColors.primary} />
                       <Text
                         style={[
                           styles.badgeText,
                           { color: stateColors.primary },
                         ]}
                       >
-                        {title}
+                        {title.label}
                       </Text>
                     </View>
                   ))}
@@ -253,7 +295,7 @@ export function GameEndingScreen({
               </Pressable>
             </Animated.View>
           </View>
-        </LinearGradient>
+        </View>
       </View>
     </View>
   );

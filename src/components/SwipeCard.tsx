@@ -3,6 +3,7 @@ import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
+import MaskedView from "@react-native-masked-view/masked-view";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   cancelAnimation,
@@ -16,6 +17,7 @@ import Animated, {
   withSequence,
   withSpring,
   withTiming,
+  Easing,
 } from "react-native-reanimated";
 
 import { CharacterPortrait } from "../assets/art/CharacterPortrait";
@@ -43,6 +45,7 @@ export const SwipeCard = React.memo(function SwipeCard({
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const borderGlow = useSharedValue(0.3);
+  const rotateGlow = useSharedValue(0);
   const blurRef = React.useRef<View>(null);
 
   const dealScale = useSharedValue(0.88);
@@ -92,6 +95,16 @@ export const SwipeCard = React.memo(function SwipeCard({
       true,
     );
   }, [borderGlow]);
+
+  useEffect(() => {
+    if (card.isReward) {
+      rotateGlow.value = withRepeat(
+        withTiming(360, { duration: 6000, easing: Easing.linear }),
+        -1,
+        false
+      );
+    }
+  }, [card.isReward, rotateGlow]);
 
   useEffect(() => {
     cancelAnimation(translateX);
@@ -165,6 +178,10 @@ export const SwipeCard = React.memo(function SwipeCard({
 
   const borderGlowStyle = useAnimatedStyle(() => ({
     opacity: borderGlow.value,
+  }));
+
+  const rotateGlowStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${rotateGlow.value}deg` }],
   }));
 
   const leftChoiceStyle = useAnimatedStyle(() => ({
@@ -250,141 +267,236 @@ export const SwipeCard = React.memo(function SwipeCard({
     gradientColors = ["#ebd7a1", "#c8aa6e", "#8a6a38", "#c8aa6e", "#ebd7a1"];
   }
 
+  const innerContent = (
+    <View style={styles.innerCard}>
+      <View style={styles.topAccent} />
+
+      {/* PORTRAIT / REWARD AREA */}
+      <View style={styles.portraitContainer} ref={blurRef}>
+        <View
+          style={[
+            styles.portraitFrame,
+            card.isReward && card.rewardIcon && styles.rewardFrame,
+          ]}
+        >
+          {card.isReward && card.rewardIcon ? (
+            <View style={styles.rewardIconContainer}>
+              {/* STROKE LAYER (GLOWING ANIMATION) */}
+              <MaskedView
+                style={StyleSheet.absoluteFill}
+                maskElement={
+                  <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                    {[...Array(12)].map((_, i) => (
+                      <MaterialCommunityIcons
+                        key={i}
+                        name={card.rewardIcon as any}
+                        size={120}
+                        color="black"
+                        style={[
+                          i > 0 ? { position: "absolute" } : {},
+                          {
+                            textShadowColor: "black",
+                            textShadowRadius: 6,
+                            textShadowOffset: { width: 0, height: 0 },
+                          }
+                        ]}
+                      />
+                    ))}
+                  </View>
+                }
+              >
+                <LinearGradient
+                  colors={
+                    card.rewardType === "achievement"
+                      ? ["#ebd7a1", "#8a6a38", "#4a3820", "#8a6a38", "#ebd7a1"]
+                      : ["#88d4b4", "#3b7a5a", "#1a3a2a", "#3b7a5a", "#88d4b4"]
+                  }
+                  locations={[0, 0.25, 0.5, 0.75, 1]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={StyleSheet.absoluteFill}
+                />
+                <Animated.View
+                  style={[
+                    {
+                      position: "absolute",
+                      top: "-50%",
+                      left: "-50%",
+                      width: "200%",
+                      height: "200%",
+                    },
+                    rotateGlowStyle,
+                  ]}
+                >
+                  <LinearGradient
+                    colors={
+                      card.rewardType === "achievement"
+                        ? ["transparent", "transparent", "#fff5d1", "#c8aa6e", "transparent", "transparent"]
+                        : ["transparent", "transparent", "#d1fff5", "#88d4b4", "transparent", "transparent"]
+                    }
+                    locations={[0, 0.4, 0.48, 0.52, 0.6, 1]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={{ flex: 1 }}
+                  />
+                </Animated.View>
+              </MaskedView>
+
+              {/* INNER FILL LAYER */}
+              <View style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center", zIndex: 1 }]}>
+                <MaterialCommunityIcons
+                  name={card.rewardIcon as any}
+                  size={120}
+                  color="#161310"
+                />
+              </View>
+            </View>
+          ) : (
+            <>
+              <CharacterPortrait variant={card.portraitKey} />
+              {card.isReward && card.rewardType === "collection" && (
+                <View style={styles.mysteryOverlay}>
+                  <LinearGradient
+                    colors={[
+                      "transparent",
+                      "rgba(20, 16, 12, 0.4)",
+                      "#14100c",
+                    ]}
+                    style={StyleSheet.absoluteFillObject}
+                  />
+                  <Text style={styles.mysteryMarkFlat}>?</Text>
+                </View>
+              )}
+            </>
+          )}
+          <Animated.View
+            style={[styles.tintOverlay, styles.leftTint, leftTintStyle]}
+          />
+          <Animated.View
+            style={[styles.tintOverlay, styles.rightTint, rightTintStyle]}
+          />
+        </View>
+
+        {/* SWIPE CHOICES */}
+        <Animated.View
+          style={[
+            styles.choicePill,
+            styles.rightPill,
+            { maxWidth: pillMaxW },
+            rightChoiceStyle,
+          ]}
+        >
+          <Text
+            style={[styles.pillText, { fontSize: pillFont }]}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.7}
+          >
+            {card.rightSwipe.text}
+          </Text>
+        </Animated.View>
+
+        <Animated.View
+          style={[
+            styles.choicePill,
+            styles.leftPill,
+            { maxWidth: pillMaxW },
+            leftChoiceStyle,
+          ]}
+        >
+          <Text
+            style={[styles.pillText, { fontSize: pillFont }]}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.7}
+          >
+            {card.leftSwipe.text}
+          </Text>
+        </Animated.View>
+      </View>
+
+      {/* BOTTOM INFO */}
+      <View style={styles.bottomContent}>
+        <Text
+          style={styles.characterName}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.65}
+        >
+          {card.characterName}
+        </Text>
+
+        <View style={styles.divider}>
+          <View style={styles.dividerLine} />
+          <View style={styles.dividerDiamond} />
+          <View style={styles.dividerLine} />
+        </View>
+
+        <View style={styles.dialogueContainer}>
+          <Text
+            style={[styles.dialogue, width < 380 && styles.dialogueSmall]}
+            numberOfLines={4}
+          >
+            {card.dialogue}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+
   return (
     <GestureDetector gesture={panGesture}>
       <Animated.View style={[styles.cardShell, animatedCardStyle]}>
-        <Animated.View
-          style={[
-            styles.glowBorder,
-            borderGlowStyle,
-            card.isReward && { borderColor: gradientColors[0] },
-          ]}
-        />
-
-        <LinearGradient
-          colors={gradientColors}
-          locations={[0, 0.2, 0.5, 0.8, 1]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.cardBorder}
-        >
-          <View style={styles.innerCard}>
-            <View style={styles.topAccent} />
-
-            {}
-            <View style={styles.portraitContainer} ref={blurRef}>
-              <View
-                style={[
-                  styles.portraitFrame,
-                  card.isReward && card.rewardIcon && styles.rewardFrame,
-                ]}
-              >
-                {card.isReward && card.rewardIcon ? (
-                  <View style={styles.rewardIconContainer}>
-                    <MaterialCommunityIcons
-                      name={card.rewardIcon as any}
-                      size={120}
-                      color={
-                        card.rewardType === "achievement"
-                          ? "#e8c682"
-                          : "#88d4b4"
-                      }
-                      style={styles.iconCleanDrop}
-                    />
-                  </View>
-                ) : (
-                  <>
-                    <CharacterPortrait variant={card.portraitKey} />
-                    {card.isReward && card.rewardType === "collection" && (
-                      <View style={styles.mysteryOverlay}>
-                        <LinearGradient
-                          colors={[
-                            "transparent",
-                            "rgba(20, 16, 12, 0.4)",
-                            "#14100c",
-                          ]}
-                          style={StyleSheet.absoluteFillObject}
-                        />
-                        <Text style={styles.mysteryMarkFlat}>?</Text>
-                      </View>
-                    )}
-                  </>
-                )}
-                <Animated.View
-                  style={[styles.tintOverlay, styles.leftTint, leftTintStyle]}
-                />
-                <Animated.View
-                  style={[styles.tintOverlay, styles.rightTint, rightTintStyle]}
-                />
-              </View>
-
-              {}
-              <Animated.View
-                style={[
-                  styles.choicePill,
-                  styles.rightPill,
-                  { maxWidth: pillMaxW },
-                  rightChoiceStyle,
-                ]}
-              >
-                <Text
-                  style={[styles.pillText, { fontSize: pillFont }]}
-                  numberOfLines={1}
-                  adjustsFontSizeToFit
-                  minimumFontScale={0.7}
-                >
-                  {card.rightSwipe.text}
-                </Text>
-              </Animated.View>
-
-              {}
-              <Animated.View
-                style={[
-                  styles.choicePill,
-                  styles.leftPill,
-                  { maxWidth: pillMaxW },
-                  leftChoiceStyle,
-                ]}
-              >
-                <Text
-                  style={[styles.pillText, { fontSize: pillFont }]}
-                  numberOfLines={1}
-                  adjustsFontSizeToFit
-                  minimumFontScale={0.7}
-                >
-                  {card.leftSwipe.text}
-                </Text>
-              </Animated.View>
-            </View>
-
-            {}
-            <View style={styles.bottomContent}>
-              <Text
-                style={styles.characterName}
-                numberOfLines={1}
-                adjustsFontSizeToFit
-                minimumFontScale={0.65}
-              >
-                {card.characterName}
-              </Text>
-
-              <View style={styles.divider}>
-                <View style={styles.dividerLine} />
-                <View style={styles.dividerDiamond} />
-                <View style={styles.dividerLine} />
-              </View>
-
-              <View style={styles.dialogueContainer}>
-                <Text
-                  style={[styles.dialogue, width < 380 && styles.dialogueSmall]}
-                  numberOfLines={4}
-                >
-                  {card.dialogue}
-                </Text>
-              </View>
-            </View>
+        {card.isReward ? (
+          <View style={{ flex: 1, borderRadius: metrics.cardRadius, padding: 3, overflow: "hidden", backgroundColor: "#3a2818" }}>
+            <LinearGradient
+              colors={gradientColors}
+              locations={[0, 0.2, 0.5, 0.8, 1]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={StyleSheet.absoluteFill}
+            />
+            <Animated.View
+              style={[
+                {
+                  position: "absolute",
+                  top: "-50%",
+                  left: "-50%",
+                  width: "200%",
+                  height: "200%",
+                },
+                rotateGlowStyle,
+              ]}
+            >
+              <LinearGradient
+                colors={["transparent", "transparent", "#fff5d1", gradientColors[0], "transparent", "transparent"]}
+                locations={[0, 0.4, 0.48, 0.52, 0.6, 1]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ flex: 1 }}
+              />
+            </Animated.View>
+            {innerContent}
           </View>
-        </LinearGradient>
+        ) : (
+          <>
+            <Animated.View
+              style={[
+                styles.glowBorder,
+                borderGlowStyle,
+              ]}
+            />
+            <LinearGradient
+              colors={gradientColors}
+              locations={[0, 0.2, 0.5, 0.8, 1]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.cardBorder}
+            >
+              {innerContent}
+            </LinearGradient>
+          </>
+        )}
       </Animated.View>
     </GestureDetector>
   );

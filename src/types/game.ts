@@ -39,6 +39,7 @@ export type CollectionEntry = {
   firstEncounteredGeneration: number;
   timesEncountered: number;
   lastDecision: SwipeDirection | null;
+  isNew?: boolean;
 };
 
 export type Achievement = {
@@ -48,6 +49,7 @@ export type Achievement = {
   icon: string;
   condition: AchievementCondition;
   unlockedAt: number | null;
+  isNew?: boolean;
 };
 
 export type AchievementCondition =
@@ -98,7 +100,7 @@ export type GameEnding = {
 
   stats: GameStats;
 
-  titles: string[];
+  titles: { icon: string; label: string }[];
 
   newCardsThisRun: string[];
 };

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import deckData from "../data/deck.json";
 import { calculateEnding } from "../data/endings";
@@ -139,6 +140,9 @@ type GameState = {
   unreadAchievements: number;
   unreadCollections: number;
   soundEnabled: boolean;
+  musicEnabled: boolean;
+  sfxEnabled: boolean;
+  lastLoadedAt: number;
 
   swipe: (direction: SwipeDirection) => void;
   continueAfterFailure: () => void;
@@ -146,8 +150,14 @@ type GameState = {
   hardReset: () => void;
   clearUnreadAchievements: () => void;
   clearUnreadCollections: () => void;
+  clearNewFlags: () => void;
   toggleSound: () => void;
+  toggleMusic: () => void;
+  toggleSfx: () => void;
   dismissEnding: () => void;
+  saveGame: (slotIndex: number) => Promise<void>;
+  loadGame: (slotIndex: number) => Promise<boolean>;
+  deleteGame: (slotIndex: number) => Promise<void>;
 };
 
 function clampMetric(value: number) {
@@ -291,6 +301,7 @@ function updateCollection(
       firstEncounteredGeneration: generation,
       timesEncountered: 1,
       lastDecision: direction,
+      isNew: true,
     },
   ];
 }
@@ -334,7 +345,7 @@ function checkAchievements(
         break;
     }
 
-    return unlocked ? { ...ach, unlockedAt: state.generation } : ach;
+    return unlocked ? { ...ach, unlockedAt: state.generation, isNew: true } : ach;
   });
 }
 
@@ -409,6 +420,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   unreadAchievements: 0,
   unreadCollections: 0,
   soundEnabled: true,
+  musicEnabled: true,
+  sfxEnabled: true,
+  lastLoadedAt: 0,
   swipe: (direction) => {
     const state = get();
     const currentCard = state.queue[0];
@@ -655,7 +669,56 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   clearUnreadAchievements: () => set({ unreadAchievements: 0 }),
   clearUnreadCollections: () => set({ unreadCollections: 0 }),
+  clearNewFlags: () => set((state) => ({
+    collection: state.collection.map((c) => ({ ...c, isNew: false })),
+    achievements: state.achievements.map((a) => ({ ...a, isNew: false })),
+  })),
   toggleSound: () => set((state) => ({ soundEnabled: !state.soundEnabled })),
+  toggleMusic: () => set((state) => ({ musicEnabled: !state.musicEnabled })),
+  toggleSfx: () => set((state) => ({ sfxEnabled: !state.sfxEnabled })),
+  saveGame: async (slotIndex: number) => {
+    const state = get();
+    const {
+      swipe,
+      continueAfterFailure,
+      resetGame,
+      hardReset,
+      clearUnreadAchievements,
+      clearUnreadCollections,
+      toggleSound,
+      dismissEnding,
+      saveGame,
+      loadGame,
+      ...serializableState
+    } = state;
+    try {
+      await AsyncStorage.setItem(
+        `save_slot_${slotIndex}`,
+        JSON.stringify(serializableState)
+      );
+    } catch (error) {
+      console.error("Save error:", error);
+    }
+  },
+  loadGame: async (slotIndex: number) => {
+    try {
+      const data = await AsyncStorage.getItem(`save_slot_${slotIndex}`);
+      if (data) {
+        set({ ...JSON.parse(data), lastLoadedAt: Date.now() });
+        return true;
+      }
+    } catch (error) {
+      console.error("Load error:", error);
+    }
+    return false;
+  },
+  deleteGame: async (slotIndex: number) => {
+    try {
+      await AsyncStorage.removeItem(`save_slot_${slotIndex}`);
+    } catch (error) {
+      console.error("Delete error:", error);
+    }
+  },
 }));
 
 export const selectCurrentCard = (state: GameState) => state.queue[0] ?? null;
