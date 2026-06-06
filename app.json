@@ -1,0 +1,65 @@
+{
+  "expo": {
+    "name": "Kadim Meşe Hanı",
+    "slug": "kadim-mese-hani",
+    "scheme": "kadimhani",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "icon": "./src/assets/icon.png",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kadim.mesehani",
+      "icon": "./src/assets/icon.png",
+      "darkIcon": "./src/assets/icon-dark.png",
+      "tintedIcon": "./src/assets/icon-tinted.png",
+      "infoPlist": {
+        "UIUserInterfaceStyle": "Dark"
+      }
+    },
+    "android": {
+      "package": "com.kadim.mesehani",
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "backgroundColor": "#110d0a",
+        "monochromeImage": "./src/assets/adaptive-icon-monochrome.png"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#110d0a",
+          "image": "./src/assets/icon.png",
+          "imageWidth": 220
+        }
+      ],
+      [
+        "expo-router",
+        {
+          "root": "src/app"
+        }
+      ],
+      "expo-system-ui",
+      "expo-audio"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "root": "src/app"
+      },
+      "eas": {
+        "projectId": "67cc3a03-c67e-482b-9ab4-123e87880d2d"
+      }
+    }
+  }
+}

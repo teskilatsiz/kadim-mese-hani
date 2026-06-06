@@ -1,0 +1,1041 @@
+[
+  {
+    "id": "gizemli_simyaci",
+    "characterName": "Gizemli Simyacı",
+    "portraitKey": "alchemist",
+    "dialogue": "Yeşil cam şişesini tezgâha koyup fısıldar: 'Hanın bodrumunda bir gece çalışırsam altını ikiye katlarım. Yalnız duman biraz huysuzdur.'",
+    "leftSwipe": {
+      "text": "Bodrumu kapat",
+      "effects": { "security": 10, "atmosphere": -4 },
+      "triggerFlag": "simyaci_kovuldu"
+    },
+    "rightSwipe": {
+      "text": "Odayı ver",
+      "effects": { "wealth": -8, "pantry": -4, "atmosphere": 8 },
+      "triggerFlag": "simyaci_kabul_edildi"
+    }
+  },
+  {
+    "id": "simyaci_deneyi",
+    "characterName": "Kıvılcım Ustası",
+    "portraitKey": "alchemist",
+    "dialogue": "Simyacı başardı: iksirler gece boyunca parlar. Zenginler tatmak istiyor, muhafızlar ise şişenin tıkırtısından şüpheli.",
+    "prerequisites": ["simyaci_kabul_edildi"],
+    "leftSwipe": {
+      "text": "Deneyi durdur",
+      "effects": { "security": 6, "wealth": -3, "atmosphere": -5 },
+      "triggerFlag": "deney_durduruldu"
+    },
+    "rightSwipe": {
+      "text": "İksir gecesi",
+      "effects": { "wealth": 14, "security": -12, "pantry": -6, "atmosphere": 7 },
+      "triggerFlag": "iksir_gecesi"
+    }
+  },
+  {
+    "id": "simyaci_patlama",
+    "characterName": "Simyacı",
+    "portraitKey": "alchemist",
+    "dialogue": "Bir gece bodrumdan korkunç bir patlama sesi gelir. Simyacı yüzü isle kaplı şekilde merdivenlerden çıkar: 'Küçük bir aksilik... ama keşfim büyük! Sadece biraz tamirat lazım.'",
+    "prerequisites": ["iksir_gecesi"],
+    "leftSwipe": {
+      "text": "Artık yeter, git",
+      "effects": { "security": 12, "atmosphere": -8, "wealth": 5 },
+      "triggerFlag": "simyaci_kovuldu_sonra"
+    },
+    "rightSwipe": {
+      "text": "Tamiratı üstlen",
+      "effects": { "wealth": -15, "security": -5, "atmosphere": 5, "pantry": -3 },
+      "triggerFlag": "simyaci_patlama_oldu"
+    }
+  },
+  {
+    "id": "simyaci_sifa",
+    "characterName": "Simyacı",
+    "portraitKey": "alchemist",
+    "dialogue": "Yaralı kervancıları görünce simyacının gözleri parlar: 'Şifa iksiri yapabilirim! Ama malzemeler pahalı ve bir gece boyunca kileri kullanmam gerek.'",
+    "prerequisites": ["simyaci_kabul_edildi", "kervan_kurtuldu"],
+    "leftSwipe": {
+      "text": "Kilere dokunma",
+      "effects": { "pantry": 4, "atmosphere": -6, "security": 2 }
+    },
+    "rightSwipe": {
+      "text": "Şifa iksiri yap",
+      "effects": { "pantry": -14, "wealth": -8, "atmosphere": 16, "security": 3 },
+      "triggerFlag": "simyaci_sifa_yapildi"
+    }
+  },
+  {
+    "id": "simyaci_sorgu",
+    "characterName": "Simyacı",
+    "portraitKey": "alchemist",
+    "dialogue": "Muhafızlar simyacıyı sorgulamak için geldi. 'Yasadışı iksir üretimi' diyorlar. Simyacı senden yardım istiyor.",
+    "prerequisites": ["simyaci_kabul_edildi", "muhafiz_masasi"],
+    "leftSwipe": {
+      "text": "Muhafızlara teslim et",
+      "effects": { "security": 10, "atmosphere": -10, "wealth": 5 },
+      "triggerFlag": "simyaci_teslim"
+    },
+    "rightSwipe": {
+      "text": "Simyacıyı koru",
+      "effects": { "security": -14, "wealth": -5, "atmosphere": 8 },
+      "triggerFlag": "simyaci_koruma"
+    }
+  },
+
+  {
+    "id": "kacak_prenses",
+    "characterName": "Kaçak Prenses",
+    "portraitKey": "princess",
+    "dialogue": "Yağmurlu pelerini altından kraliyet mührü görünür. Bir gece saklanmak istiyor; arkasında saray askerleri var.",
+    "leftSwipe": {
+      "text": "Saraya bildir",
+      "effects": { "wealth": 14, "security": 7, "atmosphere": -12 },
+      "triggerFlag": "prenses_teslim"
+    },
+    "rightSwipe": {
+      "text": "Gizli odaya al",
+      "effects": { "security": -14, "wealth": -4, "atmosphere": 12 },
+      "triggerFlag": "prenses_saklandi"
+    }
+  },
+  {
+    "id": "prensesin_sovalyesi",
+    "characterName": "Yeminli Şövalye",
+    "portraitKey": "knight",
+    "dialogue": "Prensesi arayan eski bir şövalye seni tanır gibi bakıyor. Yardım edersen hanın adını şarkılara taşıyacağını söyler.",
+    "prerequisites": ["prenses_saklandi"],
+    "leftSwipe": {
+      "text": "Kapıdan çevir",
+      "effects": { "security": 8, "atmosphere": -7 }
+    },
+    "rightSwipe": {
+      "text": "Sadakat yemini",
+      "effects": { "security": -5, "wealth": -5, "atmosphere": 15 },
+      "triggerFlag": "sovalye_yeminli"
+    }
+  },
+  {
+    "id": "prenses_ask",
+    "characterName": "Kaçak Prenses",
+    "portraitKey": "princess",
+    "dialogue": "Prenses ve şövalye arasında bir bağ oluşmuş. Prenses, düğünlerini handa yapmak istiyor. Bu, hanı kraliyet hedefine çevirebilir — ama şöhreti de artırır.",
+    "prerequisites": ["prenses_saklandi", "sovalye_yeminli"],
+    "leftSwipe": {
+      "text": "Çok riskli",
+      "effects": { "security": 8, "atmosphere": -5, "wealth": 3 }
+    },
+    "rightSwipe": {
+      "text": "Düğün hazırlığı",
+      "effects": { "wealth": -18, "pantry": -12, "atmosphere": 20, "security": -10 },
+      "triggerFlag": "prenses_ask"
+    }
+  },
+  {
+    "id": "prenses_taht",
+    "characterName": "Kaçak Prenses",
+    "portraitKey": "princess",
+    "dialogue": "Prenses gözlerinde kararlılıkla konuşur: 'Tahtımı geri almak istiyorum. Loncanın desteğiyle bir ordu kurabilirim. Hanın, karargâhım olabilir mi?'",
+    "prerequisites": ["prenses_saklandi", "lonca_anlasmasi"],
+    "leftSwipe": {
+      "text": "Siyasete karışma",
+      "effects": { "security": 8, "wealth": 4, "atmosphere": -6 }
+    },
+    "rightSwipe": {
+      "text": "Karargâh kur",
+      "effects": { "security": -18, "wealth": -12, "atmosphere": 14, "pantry": -8 },
+      "triggerFlag": "prenses_taht_istiyor"
+    }
+  },
+  {
+    "id": "saray_mufettisi",
+    "characterName": "Saray Müfettişi",
+    "portraitKey": "inspector",
+    "dialogue": "Müfettiş defterini açar: kaçakın burada olmadığını kanıtlamak için kileri ve odaları aramak ister.",
+    "prerequisites": ["prenses_teslim"],
+    "leftSwipe": {
+      "text": "Bahşiş uzat",
+      "effects": { "wealth": -10, "security": -3, "atmosphere": 5 }
+    },
+    "rightSwipe": {
+      "text": "Defteri imzala",
+      "effects": { "security": 12, "atmosphere": -8, "wealth": 4 }
+    }
+  },
+  {
+    "id": "saray_odulu",
+    "characterName": "Saray Müfettişi",
+    "portraitKey": "inspector",
+    "dialogue": "Müfettiş geri dönüyor, bu sefer elinde bir ferman var: 'Saray, sadakatinizi ödüllendirmek istiyor. Kraliyet onayı ile hanınız vergi muafiyeti kazanabilir.'",
+    "prerequisites": ["prenses_teslim"],
+    "leftSwipe": {
+      "text": "Saraydan uzak dur",
+      "effects": { "security": 5, "atmosphere": 3, "wealth": -2 }
+    },
+    "rightSwipe": {
+      "text": "Fermanı kabul et",
+      "effects": { "wealth": 18, "security": 6, "atmosphere": -10 },
+      "triggerFlag": "saray_destegi"
+    }
+  },
+
+  {
+    "id": "orman_avcilari",
+    "characterName": "Orman Avcıları",
+    "portraitKey": "hunter",
+    "dialogue": "Avcılar kapıda taze geyik eti taşıyor. Ucuz satarlar, ama orman muhafızları bu avın yasak olduğunu söyleyebilir.",
+    "leftSwipe": {
+      "text": "Eti reddet",
+      "effects": { "security": 7, "pantry": -3, "wealth": -2 }
+    },
+    "rightSwipe": {
+      "text": "Kileri doldur",
+      "effects": { "pantry": 16, "wealth": -8, "security": -7, "atmosphere": 3 },
+      "triggerFlag": "yasak_av_alindi"
+    }
+  },
+  {
+    "id": "orman_muhafizi",
+    "characterName": "Orman Muhafızı",
+    "portraitKey": "guard",
+    "dialogue": "Yeşil pelerinli muhafız kapıyı çalar: 'Yasak avdan et aldığınız duyuldu. Ya cezayı ödeyin, ya da avcıları teslim edin.'",
+    "prerequisites": ["yasak_av_alindi"],
+    "leftSwipe": {
+      "text": "Cezayı öde",
+      "effects": { "wealth": -14, "security": 8, "atmosphere": -3 },
+      "triggerFlag": "orman_muhafiz_geldi"
+    },
+    "rightSwipe": {
+      "text": "Avcıları teslim et",
+      "effects": { "security": 12, "atmosphere": -12, "wealth": 4 },
+      "triggerFlag": "avcilar_teslim"
+    }
+  },
+  {
+    "id": "kurt_surusu",
+    "characterName": "Yaşlı Avcı",
+    "portraitKey": "hunter",
+    "dialogue": "Avcılardan biri nefes nefese gelir: 'Geyikleri fazla avladık... kurtlar açlıktan çıldırdı. Bu gece hana inebilirler. Ateş ve et lazım!'",
+    "prerequisites": ["yasak_av_alindi"],
+    "leftSwipe": {
+      "text": "Kapıları kilitle",
+      "effects": { "security": 10, "pantry": -4, "atmosphere": -8 },
+      "triggerFlag": "kurt_saldirisi"
+    },
+    "rightSwipe": {
+      "text": "Kurtlara et bırak",
+      "effects": { "pantry": -16, "security": 4, "atmosphere": 6, "wealth": -3 },
+      "triggerFlag": "kurtlar_beslendi"
+    }
+  },
+  {
+    "id": "orman_antlasmasi",
+    "characterName": "Eski Meşe Ruhu",
+    "portraitKey": "spirit",
+    "dialogue": "Meşe'nin köklerinden bir fısıltı yükselir: 'Ormanla barışmak ister misin? Avcıları durdur, ben de sana bereket veririm. Ama kurtları da koruyacaksın.'",
+    "prerequisites": ["yasak_av_alindi", "mese_ritueli"],
+    "leftSwipe": {
+      "text": "Av devam etsin",
+      "effects": { "pantry": 8, "security": 4, "atmosphere": -6 }
+    },
+    "rightSwipe": {
+      "text": "Ormanla barış",
+      "effects": { "pantry": 12, "wealth": -6, "atmosphere": 14, "security": -4 },
+      "triggerFlag": "orman_barisi"
+    }
+  },
+
+  {
+    "id": "gezgin_ozan",
+    "characterName": "Gezgin Ozan",
+    "portraitKey": "bard",
+    "dialogue": "Ozan yeni bir destan söylerse han dolup taşacak. Fakat herkes şarkı söylerken kupalar da hızla boşalır.",
+    "leftSwipe": {
+      "text": "Sessiz gece",
+      "effects": { "atmosphere": -6, "security": 5, "pantry": 4 }
+    },
+    "rightSwipe": {
+      "text": "Sahne senin",
+      "effects": { "atmosphere": 15, "wealth": 6, "pantry": -12, "security": -5 },
+      "triggerFlag": "ozan_sahne_aldi"
+    }
+  },
+  {
+    "id": "ozan_efsanesi",
+    "characterName": "Gezgin Ozan",
+    "portraitKey": "bard",
+    "dialogue": "Ozan geri döndü, bu sefer elinde yeni bir destan var: tüccarın deniz macerası! 'Bu şarkı hanı ülke çapında tanıtacak,' diyor gözleri parlayarak.",
+    "prerequisites": ["ozan_sahne_aldi", "baharat_anlasmasi"],
+    "leftSwipe": {
+      "text": "Fazla dikkat çeker",
+      "effects": { "security": 6, "atmosphere": -4, "wealth": 3 }
+    },
+    "rightSwipe": {
+      "text": "Destanı söyle",
+      "effects": { "atmosphere": 18, "wealth": 10, "pantry": -10, "security": -8 },
+      "triggerFlag": "ozan_efsanesi"
+    }
+  },
+  {
+    "id": "ozan_ajan",
+    "characterName": "Gezgin Ozan",
+    "portraitKey": "bard",
+    "dialogue": "Bir gece ozan seni kenara çeker: 'Aslında ben sadece ozan değilim. Saray casusu olarak gönderildim. Ama bu han... bu han gerçek. Sana sadık kalmak istiyorum.'",
+    "prerequisites": ["ozan_sahne_aldi"],
+    "leftSwipe": {
+      "text": "Güvenemem, git",
+      "effects": { "atmosphere": -10, "security": 8, "wealth": 2 },
+      "triggerFlag": "ozan_kovuldu"
+    },
+    "rightSwipe": {
+      "text": "Sırrın benimle güvende",
+      "effects": { "security": 8, "atmosphere": 10, "wealth": -4 },
+      "triggerFlag": "ozan_sadik"
+    }
+  },
+
+  {
+    "id": "liman_tuccari",
+    "characterName": "Liman Tüccarı",
+    "portraitKey": "merchant",
+    "dialogue": "Baharat sandıkları ve yabancı bira fikirleriyle gelir. Peşin altın ister, kazancı ise geç gelecektir.",
+    "leftSwipe": {
+      "text": "Yerel kal",
+      "effects": { "wealth": 4, "atmosphere": -4, "security": 2 }
+    },
+    "rightSwipe": {
+      "text": "Sandıkları al",
+      "effects": { "wealth": -13, "pantry": 10, "atmosphere": 9 },
+      "triggerFlag": "baharat_anlasmasi"
+    }
+  },
+  {
+    "id": "liman_korsanlari",
+    "characterName": "Korsan Kaptan",
+    "portraitKey": "pirate",
+    "dialogue": "Bir gece kapı tekmelenir. Korsanlar içeri dalar: 'Tüccarın mallarını biliyoruz. Ya bize verirsin, ya da hanı yakarız.'",
+    "prerequisites": ["baharat_anlasmasi", "zar_gecesi"],
+    "leftSwipe": {
+      "text": "Malları ver",
+      "effects": { "pantry": -14, "wealth": -10, "security": 5, "atmosphere": -6 },
+      "triggerFlag": "korsanlara_teslim"
+    },
+    "rightSwipe": {
+      "text": "Direniş göster",
+      "effects": { "security": -16, "wealth": -5, "atmosphere": 12, "pantry": -4 },
+      "triggerFlag": "liman_korsanlari_geldi"
+    }
+  },
+  {
+    "id": "tuccar_ortaklik",
+    "characterName": "Liman Tüccarı",
+    "portraitKey": "merchant",
+    "dialogue": "Tüccar tekrar geldi, bu sefer ciddi bir teklifle: 'Ortaklık kuralım. Deniz ticaretinin karını paylaşalım. Ama gemim batarsa riski de paylaşırız.'",
+    "prerequisites": ["baharat_anlasmasi"],
+    "leftSwipe": {
+      "text": "Bağımsız kal",
+      "effects": { "wealth": 4, "atmosphere": -3, "security": 3 }
+    },
+    "rightSwipe": {
+      "text": "Ortaklığı kabul et",
+      "effects": { "wealth": -8, "atmosphere": 8, "pantry": 6, "security": -4 },
+      "triggerFlag": "tuccar_ortaklik"
+    }
+  },
+
+  {
+    "id": "sehir_muhafizlari",
+    "characterName": "Şehir Muhafızları",
+    "portraitKey": "guard",
+    "dialogue": "Muhafızlar handa daimi masa ister. Düzen artar; ama sert bakışlar özgür ruhlu müşterileri kaçırabilir.",
+    "leftSwipe": {
+      "text": "Dışarıda beklesinler",
+      "effects": { "security": -7, "atmosphere": 7 }
+    },
+    "rightSwipe": {
+      "text": "Köşe masa",
+      "effects": { "security": 16, "wealth": 3, "atmosphere": -10 },
+      "triggerFlag": "muhafiz_masasi"
+    }
+  },
+  {
+    "id": "muhafiz_baskini",
+    "characterName": "Muhafız Başı",
+    "portraitKey": "guard",
+    "dialogue": "Muhafız Başı öfkeyle gelir: 'Handa kumar oynandığı ihbar edildi! Ya masaları devirip zarları toplarsınız, ya da ben kapatırım!'",
+    "prerequisites": ["muhafiz_masasi", "zar_gecesi"],
+    "leftSwipe": {
+      "text": "Kumar masasını kapat",
+      "effects": { "wealth": -8, "security": 14, "atmosphere": -10 },
+      "triggerFlag": "muhafiz_baskini_yapildi"
+    },
+    "rightSwipe": {
+      "text": "Rüşvet öner",
+      "effects": { "wealth": -16, "security": -6, "atmosphere": 5 },
+      "triggerFlag": "muhafiz_rusvet"
+    }
+  },
+  {
+    "id": "muhafiz_terfisi",
+    "characterName": "Saray Muhafızı",
+    "portraitKey": "guard",
+    "dialogue": "Prensesi teslim ettiğiniz saray tarafından duyuldu. Kraliyet muhafızları özel koruma teklif ediyor — bedava. Ama artık her hareketiniz izleniyor.",
+    "prerequisites": ["muhafiz_masasi", "prenses_teslim"],
+    "leftSwipe": {
+      "text": "Koruma istemem",
+      "effects": { "security": -4, "atmosphere": 8, "wealth": 2 }
+    },
+    "rightSwipe": {
+      "text": "Kraliyet koruması",
+      "effects": { "security": 18, "atmosphere": -14, "wealth": 6 },
+      "triggerFlag": "muhafiz_terfisi"
+    }
+  },
+  {
+    "id": "gece_devriyeleri",
+    "characterName": "Nöbetçi",
+    "portraitKey": "guard",
+    "dialogue": "Muhafızlar gece devriyelerine başlamak istiyor. Güvenlik artar ama gece hayatı ölür — ozanlar ve kumarbazlar kaçar.",
+    "prerequisites": ["muhafiz_masasi"],
+    "leftSwipe": {
+      "text": "Gece serbest kalsın",
+      "effects": { "security": -6, "atmosphere": 8, "wealth": 3 }
+    },
+    "rightSwipe": {
+      "text": "Devriye başlasın",
+      "effects": { "security": 14, "atmosphere": -12, "wealth": -3 },
+      "triggerFlag": "gece_devriyeleri"
+    }
+  },
+
+  {
+    "id": "bodrumdaki_fisilti",
+    "characterName": "Kukuletalı Kadın",
+    "portraitKey": "hooded",
+    "dialogue": "Bodrum kapısından eski bir anahtar uzatır. 'Hanınızın altında unutulan bir şey var,' der, 'ama açarsanız herkes duyar.'",
+    "leftSwipe": {
+      "text": "Anahtarı göm",
+      "effects": { "security": 6, "atmosphere": -3 }
+    },
+    "rightSwipe": {
+      "text": "Kapıyı aç",
+      "effects": { "atmosphere": 10, "security": -10, "wealth": -3 },
+      "triggerFlag": "bodrum_acildi"
+    }
+  },
+  {
+    "id": "eski_mese_ruhu",
+    "characterName": "Eski Meşe Ruhu",
+    "portraitKey": "spirit",
+    "dialogue": "Bodrumdaki kökler konuşur. Bereket vadeder, ama hanın şövalyelerden çok efsanelere ait olmasını ister.",
+    "prerequisites": ["bodrum_acildi"],
+    "leftSwipe": {
+      "text": "Kökleri buda",
+      "effects": { "security": 8, "pantry": -4, "atmosphere": -8 },
+      "triggerFlag": "ruh_reddedildi"
+    },
+    "rightSwipe": {
+      "text": "Ritüel yap",
+      "effects": { "pantry": 18, "atmosphere": 12, "security": -12, "wealth": -6 },
+      "triggerFlag": "mese_ritueli"
+    }
+  },
+  {
+    "id": "mese_bereket",
+    "characterName": "Eski Meşe Ruhu",
+    "portraitKey": "spirit",
+    "dialogue": "Ritüel işe yaradı. Kökler kilere uzanıyor, her sabah taze meyveler ve mantarlar beliriyor. Ama köklerin yayılması duvarları çatlatmaya başladı.",
+    "prerequisites": ["mese_ritueli"],
+    "leftSwipe": {
+      "text": "Kökleri kontrol et",
+      "effects": { "pantry": -6, "security": 10, "atmosphere": -4, "wealth": -5 }
+    },
+    "rightSwipe": {
+      "text": "Bereketine güven",
+      "effects": { "pantry": 20, "atmosphere": 8, "security": -10, "wealth": -4 },
+      "triggerFlag": "mese_bereket_tam"
+    }
+  },
+  {
+    "id": "mese_laneti",
+    "characterName": "Eski Meşe Ruhu",
+    "portraitKey": "spirit",
+    "dialogue": "Reddedilen ruh intikam arıyor. Geceleri duvarlardan siyah kökler fışkırıyor, müşteriler kabuslar görüyor. 'Beni reddetmenin bedeli ağır olacak,' diye fısıldar karanlık.",
+    "prerequisites": ["ruh_reddedildi", "bodrum_acildi"],
+    "leftSwipe": {
+      "text": "Bodrumu mühürle",
+      "effects": { "wealth": -10, "security": 8, "atmosphere": -10 },
+      "triggerFlag": "bodrum_muhurlu"
+    },
+    "rightSwipe": {
+      "text": "Özür dile, ritüel yap",
+      "effects": { "pantry": -10, "wealth": -8, "atmosphere": 10, "security": -6 },
+      "triggerFlag": "mese_baristi"
+    }
+  },
+  {
+    "id": "mese_kahin",
+    "characterName": "Eski Meşe Ruhu",
+    "portraitKey": "spirit",
+    "dialogue": "Meşe'nin kökleri titrer: 'Saklanan prensesin geleceğini görüyorum. Taht ya da sürgün... senin seçimine bağlı. Ama her yolun bir bedeli var.'",
+    "prerequisites": ["mese_ritueli", "prenses_saklandi"],
+    "leftSwipe": {
+      "text": "Kadere karışma",
+      "effects": { "atmosphere": -4, "security": 6 }
+    },
+    "rightSwipe": {
+      "text": "Kehaneti dinle",
+      "effects": { "atmosphere": 12, "security": -8, "wealth": -4 },
+      "triggerFlag": "mese_kehaneti"
+    }
+  },
+
+  {
+    "id": "acemi_asci",
+    "characterName": "Acemi Aşçı",
+    "portraitKey": "cook",
+    "dialogue": "Gençliğiyle sakar, tarifleriyle cesur. Mutfağa alınırsa kileri zorlar ama yeni yemekler hanın adını duyurur.",
+    "leftSwipe": {
+      "text": "Tezgâhı koru",
+      "effects": { "pantry": 4, "wealth": 2, "atmosphere": -5 }
+    },
+    "rightSwipe": {
+      "text": "Ocağı teslim et",
+      "effects": { "pantry": -9, "wealth": -4, "atmosphere": 14 },
+      "triggerFlag": "asci_alindi"
+    }
+  },
+  {
+    "id": "asci_yaris",
+    "characterName": "Acemi Aşçı",
+    "portraitKey": "cook",
+    "dialogue": "Aşçı, tüccarın getirdiği baharatlarla büyük bir yemek yarışması düzenlemek istiyor. 'Tüm bölgeden insanlar gelir!' diyor heyecanla.",
+    "prerequisites": ["asci_alindi", "baharat_anlasmasi"],
+    "leftSwipe": {
+      "text": "Çok masraflı",
+      "effects": { "wealth": 4, "pantry": 3, "atmosphere": -6 }
+    },
+    "rightSwipe": {
+      "text": "Yarışmayı düzenle",
+      "effects": { "pantry": -18, "wealth": -10, "atmosphere": 20, "security": -6 },
+      "triggerFlag": "asci_yarisi"
+    }
+  },
+  {
+    "id": "asci_zehirlenme",
+    "characterName": "Acemi Aşçı",
+    "portraitKey": "cook",
+    "dialogue": "Felaket! Simyacının malzemeleri yanlışlıkla yemeğe karışmış. Birkaç müşteri midesi bulanarak dışarı koşuyor. Aşçı ağlamaklı.",
+    "prerequisites": ["asci_alindi", "simyaci_kabul_edildi"],
+    "leftSwipe": {
+      "text": "İkisini de kov",
+      "effects": { "atmosphere": -14, "security": 8, "pantry": 6, "wealth": 2 },
+      "triggerFlag": "asci_kovuldu"
+    },
+    "rightSwipe": {
+      "text": "Tazminat öde, devam",
+      "effects": { "wealth": -16, "atmosphere": -6, "security": -4, "pantry": -4 },
+      "triggerFlag": "asci_zehirlenme"
+    }
+  },
+  {
+    "id": "asci_ustaligi",
+    "characterName": "Usta Aşçı",
+    "portraitKey": "cook",
+    "dialogue": "Ozanın destanlarıyla ünlenen yemekler artık bölgenin her yerinden yolcu çekiyor. Aşçı gururla yeni menüsünü sunar: 'Kadim Meşe Sofrası' adını vermiş.",
+    "prerequisites": ["asci_alindi", "ozan_sahne_aldi"],
+    "leftSwipe": {
+      "text": "Sade tut",
+      "effects": { "pantry": 6, "wealth": 4, "atmosphere": -3 }
+    },
+    "rightSwipe": {
+      "text": "Şölen sofrası",
+      "effects": { "pantry": -12, "wealth": 12, "atmosphere": 16, "security": -4 },
+      "triggerFlag": "asci_ustaligi"
+    }
+  },
+
+  {
+    "id": "zarbaz_cete",
+    "characterName": "Zarbaz Çete",
+    "portraitKey": "gambler",
+    "dialogue": "Zar küpleri masaya iner. Kazananlar altın saçacak, kaybedenler ise sandalyeleri parçayla ödeyebilir.",
+    "leftSwipe": {
+      "text": "Zarları topla",
+      "effects": { "security": 8, "wealth": -2, "atmosphere": -7 }
+    },
+    "rightSwipe": {
+      "text": "Oyun başlasın",
+      "effects": { "wealth": 13, "atmosphere": 8, "security": -13 },
+      "triggerFlag": "zar_gecesi"
+    }
+  },
+  {
+    "id": "cete_intikam",
+    "characterName": "Zarbaz Çete",
+    "portraitKey": "gambler",
+    "dialogue": "Zardan kaybeden çete üyeleri geri döndü — bu sefer bıçaklarıyla. 'Ya paramızı geri verin, ya da tezgâhı parçalarız!' diye bağırıyorlar.",
+    "prerequisites": ["zar_gecesi"],
+    "leftSwipe": {
+      "text": "Parayı geri ver",
+      "effects": { "wealth": -14, "security": 8, "atmosphere": -4 },
+      "triggerFlag": "cete_intikam"
+    },
+    "rightSwipe": {
+      "text": "Karşı koy",
+      "effects": { "security": -14, "wealth": -4, "atmosphere": 8 },
+      "triggerFlag": "cete_direnis"
+    }
+  },
+  {
+    "id": "yeralti_pazari",
+    "characterName": "Gölge Tüccar",
+    "portraitKey": "gambler",
+    "dialogue": "Karanlık bir figür bodrumu gösterir: 'Burayı yeraltı pazarına çevirebilirim. Yasaklı mallar, nadir iksirler... kimse bilmez.'",
+    "prerequisites": ["zar_gecesi", "bodrum_acildi"],
+    "leftSwipe": {
+      "text": "Tehlikeli iş",
+      "effects": { "security": 8, "atmosphere": -3, "wealth": 2 }
+    },
+    "rightSwipe": {
+      "text": "Pazarı kur",
+      "effects": { "wealth": 18, "security": -18, "atmosphere": 6, "pantry": 4 },
+      "triggerFlag": "yeralti_pazari"
+    }
+  },
+  {
+    "id": "cete_savasi",
+    "characterName": "Zarbaz Çete",
+    "portraitKey": "gambler",
+    "dialogue": "Çete lideri ve muhafız başı masanın iki ucunda oturuyor. İkisi de senden birini seçmeni istiyor. Yanlış seçim hanı savaş alanına çevirebilir.",
+    "prerequisites": ["zar_gecesi", "muhafiz_masasi"],
+    "leftSwipe": {
+      "text": "Muhafızları seç",
+      "effects": { "security": 16, "wealth": -8, "atmosphere": -10 },
+      "triggerFlag": "cete_savasi_muhafiz"
+    },
+    "rightSwipe": {
+      "text": "Çeteyle anlaş",
+      "effects": { "wealth": 12, "security": -14, "atmosphere": -4 },
+      "triggerFlag": "cete_savasi"
+    }
+  },
+
+  {
+    "id": "kervan_yaralilari",
+    "characterName": "Yaralı Kervan",
+    "portraitKey": "caravan",
+    "dialogue": "Kervan kapıda kanlı ve açlıktan bitkin. Onları almak erzak yakar, ama yollar hanına minnetle dolar.",
+    "leftSwipe": {
+      "text": "Sadece su ver",
+      "effects": { "pantry": -3, "security": 4, "atmosphere": -6 }
+    },
+    "rightSwipe": {
+      "text": "Hanı aç",
+      "effects": { "pantry": -16, "wealth": -7, "atmosphere": 16, "security": -4 },
+      "triggerFlag": "kervan_kurtuldu"
+    }
+  },
+  {
+    "id": "kervan_minneti",
+    "characterName": "Kervan Başı",
+    "portraitKey": "caravan",
+    "dialogue": "Kervan başı geri dönüyor — bu sefer sağlıklı ve zengin. Hediye olarak ipek kumaşlar ve egzotik baharatlar getirmiş. 'Borcumu ödemek istiyorum,' diyor.",
+    "prerequisites": ["kervan_kurtuldu"],
+    "leftSwipe": {
+      "text": "Hediye kabul etmem",
+      "effects": { "atmosphere": 8, "wealth": -2 },
+      "triggerFlag": "kervan_minneti"
+    },
+    "rightSwipe": {
+      "text": "Minnetle kabul et",
+      "effects": { "wealth": 16, "pantry": 10, "atmosphere": 6, "security": -3 },
+      "triggerFlag": "kervan_minneti"
+    }
+  },
+  {
+    "id": "kervan_haydutlari",
+    "characterName": "Haydut Başı",
+    "portraitKey": "bandit",
+    "dialogue": "Kervanı yaralayan haydutlar bu sefer hana geldi. Reisleri masaya oturur: 'Güzel hanmış. Haftalık haraç öderseniz, kimse zarar görmez.'",
+    "prerequisites": ["kervan_kurtuldu"],
+    "leftSwipe": {
+      "text": "Haracı reddet",
+      "effects": { "security": -14, "atmosphere": 8, "wealth": 2 },
+      "triggerFlag": "kervan_haydutlari"
+    },
+    "rightSwipe": {
+      "text": "Haracı öde",
+      "effects": { "wealth": -12, "security": 8, "atmosphere": -8 },
+      "triggerFlag": "haydut_haraci"
+    }
+  },
+  {
+    "id": "kervan_ticaret",
+    "characterName": "Kervan Başı",
+    "portraitKey": "caravan",
+    "dialogue": "Kervan başı büyük bir teklifle gelir: 'Hanınızı ticaret yolunun resmi mola noktası yapalım. Her kervan burada konaklasın. Karşılığında yılda bir kez büyük kervan şenliği düzenleriz.'",
+    "prerequisites": ["kervan_kurtuldu", "baharat_anlasmasi"],
+    "leftSwipe": {
+      "text": "Bağımsız kal",
+      "effects": { "wealth": 4, "atmosphere": -2, "security": 3 }
+    },
+    "rightSwipe": {
+      "text": "Ticaret yolu anlaşması",
+      "effects": { "wealth": 14, "pantry": 8, "atmosphere": 10, "security": -6 },
+      "triggerFlag": "kervan_ticaret"
+    }
+  },
+
+  {
+    "id": "altin_kadeh_teklifi",
+    "characterName": "Altın Kadeh Loncası",
+    "portraitKey": "guild",
+    "dialogue": "Lonca, hanına parlak bir tabela ve soylu müşteriler vaat eder. Karşılığında fiyatları ve kapıdaki kuralları onlar belirlemek ister.",
+    "prerequisites": ["ozan_sahne_aldi"],
+    "leftSwipe": {
+      "text": "Bağımsız kal",
+      "effects": { "security": 5, "wealth": -5, "atmosphere": 4 }
+    },
+    "rightSwipe": {
+      "text": "Lonca mührü",
+      "effects": { "wealth": 20, "security": 8, "atmosphere": -14, "pantry": -5 },
+      "triggerFlag": "lonca_anlasmasi"
+    }
+  },
+  {
+    "id": "lonca_baskisi",
+    "characterName": "Lonca Temsilcisi",
+    "portraitKey": "guild",
+    "dialogue": "Lonca temsilcisi masaya oturur: 'Kâr payımızı artırmak istiyoruz. Ayrıca menüyü biz belirleyeceğiz. Yoksa mührümüzü geri alırız.'",
+    "prerequisites": ["lonca_anlasmasi"],
+    "leftSwipe": {
+      "text": "Mührü geri ver",
+      "effects": { "wealth": -12, "atmosphere": 10, "security": -4 },
+      "triggerFlag": "lonca_bozuldu"
+    },
+    "rightSwipe": {
+      "text": "Talepleri kabul et",
+      "effects": { "wealth": 14, "pantry": -8, "atmosphere": -12, "security": 4 },
+      "triggerFlag": "lonca_baskisi"
+    }
+  },
+  {
+    "id": "lonca_dusmani",
+    "characterName": "Maskeli Adam",
+    "portraitKey": "guild",
+    "dialogue": "Gece yarısı maskeli bir grup kapıyı kırar: 'Lonca'nın düşmanlarıyız. Bu hanı lonca sembollerinden temizleyeceğiz!' Muhafızlar hazır, ama yeterli mi?",
+    "prerequisites": ["lonca_anlasmasi", "muhafiz_masasi"],
+    "leftSwipe": {
+      "text": "Lonca tabelasını indir",
+      "effects": { "wealth": -10, "atmosphere": -4, "security": 8 },
+      "triggerFlag": "lonca_dusmani_boyun"
+    },
+    "rightSwipe": {
+      "text": "Muhafızlarla savun",
+      "effects": { "security": -12, "wealth": -6, "atmosphere": 10 },
+      "triggerFlag": "lonca_dusmani_geldi"
+    }
+  },
+
+  {
+    "id": "deprem_gecesi",
+    "characterName": "Yaşlı Hancı",
+    "portraitKey": "old_keeper",
+    "dialogue": "Gece yarısı yer sallanır. Bardaklar düşer, duvarlar çatlar. Müşteriler panikle dışarı koşar. Sabah olduğunda hasar büyük, ama han hâlâ ayakta.",
+    "leftSwipe": {
+      "text": "Ucuz tamirat",
+      "effects": { "wealth": -6, "security": -8, "atmosphere": -6, "pantry": -4 }
+    },
+    "rightSwipe": {
+      "text": "Tam restorasyon",
+      "effects": { "wealth": -18, "pantry": -6, "security": 8, "atmosphere": 6 },
+      "triggerFlag": "deprem_tamiri"
+    }
+  },
+  {
+    "id": "vergi_memurlari",
+    "characterName": "Vergi Memuru",
+    "portraitKey": "inspector",
+    "dialogue": "Vergi memurları defterlerle geldi: 'Sarayın yeni vergisi var. Ödemeyi yapın ya da hanı kapatırız.' Meblağ büyük.",
+    "leftSwipe": {
+      "text": "Pazarlık yap",
+      "effects": { "wealth": -10, "security": -3, "atmosphere": 3 }
+    },
+    "rightSwipe": {
+      "text": "Tam öde",
+      "effects": { "wealth": -16, "security": 8, "atmosphere": -4 }
+    }
+  },
+  {
+    "id": "buyucu_gezgin",
+    "characterName": "Gezgin Büyücü",
+    "portraitKey": "hooded",
+    "dialogue": "Gümüş asasıyla kapıyı çalan büyücü, bir gecelik konaklama karşılığında hana koruma büyüsü yapmayı teklif eder. Ama büyü ters tepebilir.",
+    "leftSwipe": {
+      "text": "Normal oda ver",
+      "effects": { "wealth": 4, "pantry": -3, "atmosphere": 2 }
+    },
+    "rightSwipe": {
+      "text": "Büyüyü kabul et",
+      "effects": { "security": 12, "atmosphere": 8, "wealth": -6, "pantry": -4 },
+      "triggerFlag": "buyu_korumasi"
+    }
+  },
+  {
+    "id": "dilenci_kadin",
+    "characterName": "Yaşlı Dilenci",
+    "portraitKey": "elder_woman",
+    "dialogue": "Yaşlı bir kadın kapıda titriyor: 'Bir kase çorba ve sıcak bir köşe... Başka bir şey istemiyorum.' Ama müşteriler fakir insanlardan hoşlanmıyor.",
+    "leftSwipe": {
+      "text": "Bir parça ekmek ver",
+      "effects": { "pantry": -2, "atmosphere": -2, "security": 2 }
+    },
+    "rightSwipe": {
+      "text": "Masaya otur",
+      "effects": { "pantry": -6, "wealth": -3, "atmosphere": 10, "security": -2 },
+      "triggerFlag": "dilenci_agirlandi"
+    }
+  },
+  {
+    "id": "sahte_tuccar",
+    "characterName": "Şüpheli Tüccar",
+    "portraitKey": "merchant",
+    "dialogue": "Tüccar inanılmaz ucuz mallar sunuyor — çok ucuz. 'Hızlı iş, hızlı kazanç' diyor. Ama malların kaynağı şüpheli.",
+    "leftSwipe": {
+      "text": "Güvenmiyorum",
+      "effects": { "wealth": -2, "security": 6, "atmosphere": -2 }
+    },
+    "rightSwipe": {
+      "text": "Ucuz malları al",
+      "effects": { "wealth": 8, "pantry": 8, "security": -12, "atmosphere": -4 },
+      "triggerFlag": "sahte_mal_alindi"
+    }
+  },
+  {
+    "id": "sarhos_kavga",
+    "characterName": "Sarhoş Yolcular",
+    "portraitKey": "gambler",
+    "dialogue": "İki sarhoş müşteri ayağa kalkar ve bıçak çeker. Herkes korku içinde izliyor. Araya girmek tehlikeli, ama müdahale etmezsen han yıkılır.",
+    "leftSwipe": {
+      "text": "Araya gir",
+      "effects": { "security": 6, "atmosphere": -4, "wealth": -3 }
+    },
+    "rightSwipe": {
+      "text": "İkisini de at",
+      "effects": { "security": 8, "wealth": -6, "atmosphere": 4 }
+    }
+  },
+  {
+    "id": "kis_firtinasi",
+    "characterName": "Nöbetçi",
+    "portraitKey": "guard",
+    "dialogue": "Şiddetli bir kış fırtınası yaklaşıyor. Yollar kapanacak, stoklar tükenecek. Şimdiden hazırlık yapılmalı — ama pahalı.",
+    "leftSwipe": {
+      "text": "Kısıtlı hazırlık",
+      "effects": { "pantry": -6, "wealth": -4, "security": 4, "atmosphere": -4 }
+    },
+    "rightSwipe": {
+      "text": "Tam donanım",
+      "effects": { "pantry": -14, "wealth": -12, "security": 10, "atmosphere": 8 },
+      "triggerFlag": "kis_hazirlik"
+    }
+  },
+  {
+    "id": "hac_yolculari",
+    "characterName": "Hacı Kafilesi",
+    "portraitKey": "pilgrim",
+    "dialogue": "Kutsal topraklara giden yolcular konaklama istiyor. Para ödemezler ama duaları bereket getirir — en azından öyle derler.",
+    "leftSwipe": {
+      "text": "Ücret iste",
+      "effects": { "wealth": 6, "atmosphere": -6, "security": 2 }
+    },
+    "rightSwipe": {
+      "text": "Bedava ağırla",
+      "effects": { "wealth": -8, "pantry": -8, "atmosphere": 14, "security": 4 },
+      "triggerFlag": "hacilar_agirlandi"
+    }
+  },
+  {
+    "id": "eski_hanci",
+    "characterName": "Eski Hancı",
+    "portraitKey": "old_keeper",
+    "dialogue": "Hanın eski sahibi geri döndü. Yaşlı ve yorgun. 'Hanı geri almaya gelmedim,' diyor. 'Sadece bir kez daha şöminenin başında oturmak istiyorum.'",
+    "leftSwipe": {
+      "text": "Kapıda uğurla",
+      "effects": { "atmosphere": -6, "security": 4, "wealth": 2 }
+    },
+    "rightSwipe": {
+      "text": "Şömine başına buyur et",
+      "effects": { "atmosphere": 12, "wealth": -3, "pantry": -4 },
+      "triggerFlag": "eski_hanci_geldi"
+    }
+  },
+  {
+    "id": "gece_hirsizi",
+    "characterName": "Gece Hırsızı",
+    "portraitKey": "guild",
+    "dialogue": "Sabah olduğunda üç müşterinin çantaları boşaltılmış. Hırsız hâlâ handa olabilir. Müşteriler tazminat istiyor.",
+    "leftSwipe": {
+      "text": "Tazminat öde",
+      "effects": { "wealth": -12, "atmosphere": -4, "security": 6 }
+    },
+    "rightSwipe": {
+      "text": "Hırsızı ara",
+      "effects": { "security": -8, "wealth": -4, "atmosphere": -2 },
+      "triggerFlag": "hirsiz_araniyor"
+    }
+  },
+  {
+    "id": "festival_daveti",
+    "characterName": "Şehir Tellalı",
+    "portraitKey": "bard",
+    "dialogue": "Şehir büyük bir festival düzenliyor. Hanı festival merkezlerinden biri yapmak istiyorlar. Kalabalık artacak ama düzen sarsılacak.",
+    "leftSwipe": {
+      "text": "Katılma",
+      "effects": { "atmosphere": -4, "security": 6, "pantry": 4 }
+    },
+    "rightSwipe": {
+      "text": "Festival merkezi ol",
+      "effects": { "atmosphere": 16, "wealth": 12, "security": -14, "pantry": -10 },
+      "triggerFlag": "festival_yapildi"
+    }
+  },
+  {
+    "id": "veba_soylentisi",
+    "characterName": "Seyyar Tabip",
+    "portraitKey": "hooded",
+    "dialogue": "Tabip endişeyle fısıldar: 'Güney kasabalarında veba var. Buraya da gelebilir. Hanı karantinaya al, yoksa herkes hasta olur.'",
+    "leftSwipe": {
+      "text": "Söylentilere aldırma",
+      "effects": { "atmosphere": 4, "wealth": 4, "security": -8, "pantry": 2 }
+    },
+    "rightSwipe": {
+      "text": "Karantina uygula",
+      "effects": { "security": 12, "atmosphere": -14, "wealth": -10, "pantry": -6 },
+      "triggerFlag": "karantina_yapildi"
+    }
+  },
+  {
+    "id": "cilgin_mucit",
+    "characterName": "Çılgın Mucit",
+    "portraitKey": "inventor",
+    "dialogue": "Saçları diken diken bir adam tekerlek ve dişlilerden oluşan garip bir makine taşıyor: 'Bu, yemeği kendi pişiren bir cihaz! Sadece bir köşeye ihtiyacım var.'",
+    "leftSwipe": {
+      "text": "Çok gürültülü",
+      "effects": { "security": 4, "atmosphere": -2 }
+    },
+    "rightSwipe": {
+      "text": "Köşeyi ver",
+      "effects": { "pantry": 10, "wealth": -6, "atmosphere": 6, "security": -6 },
+      "triggerFlag": "mucit_alindi"
+    }
+  },
+  {
+    "id": "kayip_cocuk",
+    "characterName": "Kayıp Çocuk",
+    "portraitKey": "child",
+    "dialogue": "Kapının önünde titreyen bir çocuk beliriyor. Ailesi kayıp, aç ve korkmuş. Müşteriler huzursuz bakıyor.",
+    "leftSwipe": {
+      "text": "Ekmek verip yolla",
+      "effects": { "pantry": -2, "atmosphere": -3, "security": 2 }
+    },
+    "rightSwipe": {
+      "text": "Sahiplen",
+      "effects": { "pantry": -6, "wealth": -4, "atmosphere": 12, "security": -2 },
+      "triggerFlag": "cocuk_sahiplenildi"
+    }
+  },
+  {
+    "id": "ejderha_soylentisi",
+    "characterName": "Yaşlı Gezgin",
+    "portraitKey": "caravan",
+    "dialogue": "Yaşlı gezgin titreyerek anlatır: 'Kuzeyde bir ejderha gördüm! Buraya doğru geliyor!' Muhtemelen bir söylenti, ama müşteriler panikledi.",
+    "leftSwipe": {
+      "text": "Saçmalık, sakinleş",
+      "effects": { "atmosphere": -4, "security": 4, "wealth": 2 }
+    },
+    "rightSwipe": {
+      "text": "Savunma hazırla",
+      "effects": { "security": 10, "wealth": -8, "pantry": -6, "atmosphere": 6 },
+      "triggerFlag": "ejderha_soylentisi"
+    }
+  },
+  {
+    "id": "gizemli_harita",
+    "characterName": "Sarhoş Denizci",
+    "portraitKey": "sailor",
+    "dialogue": "Sarhoş denizci masaya eski bir harita bırakır: 'Bu harita... kayıp hazineyi gösteriyor. Ama oraya gitmek için birinin yatırım yapması lazım.'",
+    "leftSwipe": {
+      "text": "Masal bu",
+      "effects": { "wealth": 2, "atmosphere": -2 }
+    },
+    "rightSwipe": {
+      "text": "Yatırım yap",
+      "effects": { "wealth": -14, "atmosphere": 8, "security": -4 },
+      "triggerFlag": "hazine_haritasi"
+    }
+  },
+  {
+    "id": "hayalet_konuk",
+    "characterName": "Soluk Yüzlü Konuk",
+    "portraitKey": "ghost",
+    "dialogue": "Gecenin bir yarısı kapı açılır. İçeri giren figür yarı saydam, ayak sesleri duyulmuyor. 'Bir zamanlar bu hanın sahibiydim,' diyor. 'Ruhum hâlâ burada.'",
+    "prerequisites": ["bodrum_acildi"],
+    "leftSwipe": {
+      "text": "Dua et, yolla",
+      "effects": { "atmosphere": -6, "security": 8, "wealth": 2 }
+    },
+    "rightSwipe": {
+      "text": "Hikâyesini dinle",
+      "effects": { "atmosphere": 14, "security": -6, "wealth": -2, "pantry": -2 },
+      "triggerFlag": "hayalet_hikaye"
+    }
+  },
+  {
+    "id": "rakip_han",
+    "characterName": "Rakip Hancı",
+    "portraitKey": "rival",
+    "dialogue": "Yolun öbür ucunda yeni bir han açılmış. Sahibi gelip alay eder: 'Eski meşe mese, ben yeni çağın hancısıyım. Müşterilerin bana gelecek.'",
+    "leftSwipe": {
+      "text": "Görmezden gel",
+      "effects": { "atmosphere": -6, "wealth": -4, "security": 2 }
+    },
+    "rightSwipe": {
+      "text": "Rekabet başlasın",
+      "effects": { "wealth": -10, "pantry": -6, "atmosphere": 12, "security": -2 },
+      "triggerFlag": "rakip_han"
+    }
+  },
+  {
+    "id": "kurt_yavrusu",
+    "characterName": "Avcı",
+    "portraitKey": "hunter",
+    "dialogue": "Avcı küçük bir kurt yavrusu getiriyor: 'Annesi öldü. İster besle, ister sat. Ama büyürse iyi bir bekçi olur.'",
+    "leftSwipe": {
+      "text": "Doğaya bırak",
+      "effects": { "atmosphere": -3, "security": 2 }
+    },
+    "rightSwipe": {
+      "text": "Kurt yavrusunu al",
+      "effects": { "pantry": -6, "security": 8, "atmosphere": 8, "wealth": -3 },
+      "triggerFlag": "kurt_yavrusu"
+    }
+  },
+  {
+    "id": "gizli_tunel",
+    "characterName": "Eski Hancı",
+    "portraitKey": "old_keeper",
+    "dialogue": "Eski hancı bir sır paylaşır: 'Bodrumun arkasında ormana çıkan gizli bir tünel var. Kaçış yolu olarak ya da gizli ticaret için kullanılabilir.'",
+    "prerequisites": ["bodrum_acildi", "eski_hanci_geldi"],
+    "leftSwipe": {
+      "text": "Tüneli kapat",
+      "effects": { "security": 10, "atmosphere": -4 }
+    },
+    "rightSwipe": {
+      "text": "Tüneli kullan",
+      "effects": { "wealth": 8, "security": -10, "atmosphere": 6 },
+      "triggerFlag": "gizli_tunel"
+    }
+  }
+]
