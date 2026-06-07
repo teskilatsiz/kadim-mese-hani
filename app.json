@@ -8,13 +8,12 @@
     "userInterfaceStyle": "dark",
     "icon": "./src/assets/icon.png",
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.kadim.mesehani",
-      "icon": "./src/assets/icon.png",
-      "darkIcon": "./src/assets/icon-dark.png",
-      "tintedIcon": "./src/assets/icon-tinted.png",
-      "infoPlist": {
-        "UIUserInterfaceStyle": "Dark"
+      "icon": {
+        "light": "./src/assets/icon.png",
+        "dark": "./src/assets/icon-dark.png",
+        "tinted": "./src/assets/icon-tinted.png"
       }
     },
     "android": {
